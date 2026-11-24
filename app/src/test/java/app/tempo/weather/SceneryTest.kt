@@ -86,8 +86,10 @@ class SceneryTest {
         assertEquals("photo:scene_fog_manha", k1)
         assertEquals("mesmo cenário = mesma chave (sem troca desnecessária)", k1, k2)
         assertNotEquals(k1, WidgetRenderer.backgroundKey(ctx, fog, at("12:10"), Atmosphere.CLOUDY))
-        // Cena ainda sem foto no app: usa o degradê da condição, nunca a foto de outra condição.
+        // Todos os 29 cenários têm fotografia no app.
+        val missing = Scenery.ALL_PHOTOS.filter { Scenery.photoRes(ctx, it) == 0 }
+        assertTrue("sem foto: $missing", missing.isEmpty())
         val hail = snap.copy(current = snap.current.copy(weatherCode = 99))
-        assertTrue(WidgetRenderer.backgroundKey(ctx, hail, at("14:00"), Atmosphere.STORM).startsWith("grad:"))
+        assertEquals("photo:scene_hail_dia", WidgetRenderer.backgroundKey(ctx, hail, at("14:00"), Atmosphere.STORM))
     }
 }

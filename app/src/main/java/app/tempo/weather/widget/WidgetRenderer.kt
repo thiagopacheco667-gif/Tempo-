@@ -237,7 +237,9 @@ object WidgetRenderer {
             rv.setContentDescription(R.id.alert_chip, alert.title)
             rv.setContentDescription(R.id.alert_icon, alert.title)
         }
-        if (compact) rv.setViewVisibility(R.id.alert_icon, if (alert != null) View.VISIBLE else View.GONE)
+        // Sempre define a visibilidade: o launcher reaproveita a view anterior (ex.: estado vazio
+        // escondeu o ícone) e só aplica o que for enviado agora.
+        rv.setViewVisibility(R.id.alert_icon, if (alert != null) View.VISIBLE else View.GONE)
         if (expandedFamily) {
             val showBanner = alert != null && size.roomy
             rv.setViewVisibility(R.id.alert_banner, if (showBanner) View.VISIBLE else View.GONE)

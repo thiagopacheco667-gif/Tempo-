@@ -22,12 +22,12 @@ sem textos, números, pessoas ou elementos gráficos.
 | `scene_clear_manha` | céu limpo · manhã | ✅ |
 | `scene_clear_tarde` | céu limpo · tarde | ✅ ¹ |
 | `scene_clear_entardecer` | céu limpo · entardecer | ✅ ¹ |
-| `scene_clear_noite` | céu limpo · noite | ✅ ¹ |
-| `scene_partly_manha` | parcialmente nublado · manhã | ✅ ¹ |
-| `scene_partly_tarde` | parcialmente nublado · tarde | ✅ ¹ |
-| `scene_partly_entardecer` | parcialmente nublado · entardecer | ✅ ¹ |
+| `scene_clear_noite` | céu limpo · noite | ✅ |
+| `scene_partly_manha` | parcialmente nublado · manhã | ✅ |
+| `scene_partly_tarde` | parcialmente nublado · tarde | ✅ |
+| `scene_partly_entardecer` | parcialmente nublado · entardecer | ✅ |
 | `scene_partly_noite` | parcialmente nublado · madrugada e noite | ✅ ¹ |
-| `scene_cloudy_dia` | nublado · manhã e tarde | ✅ ¹ |
+| `scene_cloudy_dia` | nublado · manhã e tarde | ✅ |
 | `scene_cloudy_entardecer` | nublado · entardecer | ✅ ¹ |
 | `scene_cloudy_noite` | nublado · madrugada e noite | ✅ ¹ |
 | `scene_fog_manha` | nevoeiro · manhã (floresta com neblina, luz do amanhecer) | ✅ |
@@ -35,7 +35,7 @@ sem textos, números, pessoas ou elementos gráficos.
 | `scene_fog_noite` | nevoeiro · madrugada e noite | ✅ ¹ |
 | `scene_rain_light_dia` | chuva fraca / garoa · manhã e tarde | ✅ ¹ |
 | `scene_rain_light_noite` | chuva fraca / garoa · madrugada e noite | ✅ ¹ |
-| `scene_rain_moderate_dia` | chuva moderada · manhã e tarde | ✅ ¹ |
+| `scene_rain_moderate_dia` | chuva moderada · manhã e tarde | ✅ |
 | `scene_rain_moderate_noite` | chuva moderada · madrugada e noite | ✅ ¹ |
 | `scene_rain_heavy_dia` | chuva intensa · manhã e tarde | ✅ ¹ |
 | `scene_rain_heavy_noite` | chuva intensa · madrugada e noite | ✅ ¹ |

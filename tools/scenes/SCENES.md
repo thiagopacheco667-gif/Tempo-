@@ -29,7 +29,7 @@ sem textos, números, pessoas ou elementos gráficos.
 | `scene_partly_noite` | parcialmente nublado · madrugada e noite | ✅ ¹ |
 | `scene_cloudy_dia` | nublado · manhã e tarde | ✅ |
 | `scene_cloudy_entardecer` | nublado · entardecer | ✅ ¹ |
-| `scene_cloudy_noite` | nublado · madrugada e noite | ✅ ¹ |
+| `scene_cloudy_noite` | nublado · madrugada e noite | ✅ |
 | `scene_fog_manha` | nevoeiro · manhã (floresta com neblina, luz do amanhecer) | ✅ |
 | `scene_fog_dia` | nevoeiro · tarde e entardecer | ✅ ¹ |
 | `scene_fog_noite` | nevoeiro · madrugada e noite | ✅ ¹ |

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Atmosfera: ensolarado — azul profundo com luz quente -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="@dimen/widget_radius" />
+            <gradient android:angle="270" android:startColor="#FF12306E" android:centerColor="#FF0B2154" android:endColor="#FF07132F" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="@dimen/widget_radius" />
+            <gradient android:type="radial" android:centerX="0.92" android:centerY="0.02"
+                android:gradientRadius="95%" android:startColor="#70FFB860" android:centerColor="#22FF9A4A" android:endColor="#00FF9A4A" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="@dimen/widget_radius" />
+            <gradient android:type="radial" android:centerX="0.0" android:centerY="1.0"
+                android:gradientRadius="85%" android:startColor="#383B7BFF" android:centerColor="#103B7BFF" android:endColor="#003B7BFF" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="@dimen/widget_radius" />
+            <gradient android:angle="270" android:startColor="#12FFFFFF" android:centerColor="#00FFFFFF" android:endColor="#14000000" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="@dimen/widget_radius" />
+            <stroke android:width="1dp" android:color="#1CFFFFFF" />
+        </shape>
+    </item>
+</layer-list>

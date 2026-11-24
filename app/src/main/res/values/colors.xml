@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Premium Atmospheric Weather — paleta base -->
+    <color name="ink_primary">#FFFFFFFF</color>
+    <color name="ink_secondary">#E0E8F5FF</color>
+    <color name="ink_tertiary">#99C9D6F2</color>
+    <color name="ink_quaternary">#66B4C3E6</color>
+    <color name="ink_shadow">#59000818</color>
+
+    <color name="navy_950">#FF040917</color>
+    <color name="status_ok">#FF7CE0B0</color>
+    <color name="status_stale">#FFFFC15E</color>
+
+    <color name="glass_fill">#14FFFFFF</color>
+    <color name="glass_edge">#24FFFFFF</color>
+</resources>

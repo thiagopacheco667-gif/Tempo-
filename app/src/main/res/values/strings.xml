@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Tempo</string>
+    <string name="widget_label">Tempo Atmosférico</string>
+    <string name="widget_description">Clima atual, indicadores e previsão de 5 dias com dados reais da Open-Meteo.</string>
+    <string name="cd_refresh">Atualizar previsão</string>
+    <string name="cd_condition_icon">Ícone da condição do tempo</string>
+    <string name="cd_rain">Probabilidade de chuva</string>
+    <string name="cd_humidity">Umidade</string>
+    <string name="cd_wind">Vento</string>
+    <string name="cd_uv">Índice UV</string>
+</resources>

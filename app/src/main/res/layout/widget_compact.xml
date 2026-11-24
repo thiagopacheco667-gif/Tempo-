@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Versão compacta: temperatura, local e condição -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:clipToOutline="true"
+    android:background="@drawable/bg_night">
+
+    <!-- Duas camadas de atmosfera: a troca entre elas gera um crossfade suave -->
+    <ImageView android:id="@+id/bg_a" android:layout_width="match_parent" android:layout_height="match_parent"
+        android:scaleType="fitXY" android:importantForAccessibility="no" android:src="@drawable/bg_night" />
+    <ImageView android:id="@+id/bg_b" android:layout_width="match_parent" android:layout_height="match_parent"
+        android:scaleType="fitXY" android:importantForAccessibility="no" android:visibility="invisible" />
+
+    <!-- Camadas ambientes animadas (apenas uma visível por vez; todas GONE com animações desligadas) -->
+    <ProgressBar android:id="@+id/amb_rain" style="@style/WAmbient" android:layout_width="match_parent"
+        android:layout_height="match_parent" android:indeterminateDrawable="@drawable/amb_rain" />
+    <ProgressBar android:id="@+id/amb_storm" style="@style/WAmbient" android:layout_width="match_parent"
+        android:layout_height="match_parent" android:indeterminateDrawable="@drawable/amb_storm" />
+    <ProgressBar android:id="@+id/amb_stars" style="@style/WAmbient" android:layout_width="match_parent"
+        android:layout_height="match_parent" android:indeterminateDrawable="@drawable/amb_stars" />
+    <ProgressBar android:id="@+id/amb_mist" style="@style/WAmbient" android:layout_width="match_parent"
+        android:layout_height="match_parent" android:indeterminateDrawable="@drawable/amb_mist" />
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+        android:orientation="vertical" android:padding="13dp">
+        <TextView android:id="@+id/city" style="@style/WText.City" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:textSize="13.5sp" android:text="@string/app_name" />
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="4dp" android:gravity="center_vertical" android:orientation="horizontal">
+            <ImageView android:id="@+id/status_dot" android:layout_width="5dp" android:layout_height="5dp"
+                android:layout_marginEnd="5dp" android:src="@drawable/status_dot" android:importantForAccessibility="no" />
+            <TextView android:id="@+id/updated" style="@style/WText.Caption" android:layout_width="0dp"
+                android:layout_height="wrap_content" android:layout_weight="1" />
+        </LinearLayout>
+        <FrameLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" />
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:gravity="center_vertical" android:orientation="horizontal">
+            <FrameLayout android:id="@+id/temp_box" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:animateLayoutChanges="true" android:layout_marginStart="-2dp">
+                <TextView android:id="@+id/temp_a" style="@style/WText.Temp" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:textSize="44sp" android:text="—°" />
+                <TextView android:id="@+id/temp_b" style="@style/WText.Temp" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:textSize="44sp" android:visibility="invisible" />
+            </FrameLayout>
+            <FrameLayout android:layout_width="0dp" android:layout_height="50dp" android:layout_weight="1" />
+            <FrameLayout android:id="@+id/icon_box" android:layout_width="58dp" android:layout_height="58dp" android:layout_marginEnd="-8dp" android:layout_marginTop="-4dp" android:layout_marginBottom="-4dp"
+                android:animateLayoutChanges="true">
+                <ProgressBar android:id="@+id/amb_glow_sun" style="@style/WAmbient" android:layout_width="match_parent"
+                    android:layout_height="match_parent" android:indeterminateDrawable="@drawable/amb_glow_sun" />
+                <ProgressBar android:id="@+id/amb_glow_sunset" style="@style/WAmbient" android:layout_width="match_parent"
+                    android:layout_height="match_parent" android:indeterminateDrawable="@drawable/amb_glow_sunset" />
+                <ProgressBar android:id="@+id/amb_glow_moon" style="@style/WAmbient" android:layout_width="match_parent"
+                    android:layout_height="match_parent" android:indeterminateDrawable="@drawable/amb_glow_moon" />
+                <ImageView android:id="@+id/icon_a" android:layout_width="46dp" android:layout_height="46dp"
+                    android:layout_gravity="center" android:contentDescription="@string/cd_condition_icon"
+                    android:src="@drawable/wx_cloudy" />
+                <ImageView android:id="@+id/icon_b" android:layout_width="46dp" android:layout_height="46dp"
+                    android:layout_gravity="center" android:contentDescription="@string/cd_condition_icon"
+                    android:visibility="invisible" />
+            </FrameLayout>
+        </LinearLayout>
+        <TextView android:id="@+id/condition" style="@style/WText.Condition" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_marginTop="1dp" android:textSize="12.5sp" />
+        <TextView android:id="@+id/hilo" style="@style/WText.Detail" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_marginTop="3dp" android:textSize="11.5sp" />
+        <ProgressBar android:id="@+id/loading" style="@style/WAmbient" android:layout_width="0dp" android:layout_height="0dp"
+            android:indeterminateDrawable="@drawable/avd_loader" />
+    </LinearLayout>
+</FrameLayout>

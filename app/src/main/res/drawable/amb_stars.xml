@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Noite: estrelas cintilantes e uma estrela cadente ocasional -->
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt">
+    <aapt:attr name="android:drawable">
+        <vector android:width="200dp" android:height="200dp"
+            android:viewportWidth="200" android:viewportHeight="200">
+            <path android:name="s0" android:pathData="M73.85,23.38 A1.09,1.09 0 1 1 76.03,23.38 A1.09,1.09 0 1 1 73.85,23.38 Z" android:fillColor="#FFFFFFFF" android:fillAlpha="0.3" />
+            <path android:name="s1" android:pathData="M46.69,98.14 A1.24,1.24 0 1 1 49.17,98.14 A1.24,1.24 0 1 1 46.69,98.14 Z" android:fillColor="#FFFFFFFF" android:fillAlpha="0.3" />
+            <path android:name="s2" android:pathData="M156.13,27.19 A0.89,0.89 0 1 1 157.92,27.19 A0.89,0.89 0 1 1 156.13,27.19 Z" android:fillColor="#FFFFFFFF" android:fillAlpha="0.3" />
+            <path android:name="s3" android:pathData="M53.51,84.33 A1.22,1.22 0 1 1 55.94,84.33 A1.22,1.22 0 1 1 53.51,84.33 Z" android:fillColor="#FFFFFFFF" android:fillAlpha="0.3" />
+            <path android:name="s4" android:pathData="M184.84,46.3 A0.7,0.7 0 1 1 186.24,46.3 A0.7,0.7 0 1 1 184.84,46.3 Z" android:fillColor="#FFFFFFFF" android:fillAlpha="0.3" />
+            <path android:name="s5" android:pathData="M122.19,108.44 A1.14,1.14 0 1 1 124.46,108.44 A1.14,1.14 0 1 1 122.19,108.44 Z" android:fillColor="#FFFFFFFF" android:fillAlpha="0.3" />
+            <path android:name="s6" android:pathData="M20.75,80.63 A1.19,1.19 0 1 1 23.13,80.63 A1.19,1.19 0 1 1 20.75,80.63 Z" android:fillColor="#FFFFFFFF" android:fillAlpha="0.3" />
+            <path android:name="s7" android:pathData="M124.33,14.06 A1.21,1.21 0 1 1 126.75,14.06 A1.21,1.21 0 1 1 124.33,14.06 Z" android:fillColor="#FFFFFFFF" android:fillAlpha="0.3" />
+            <path android:name="s8" android:pathData="M141.62,23.72 A0.64,0.64 0 1 1 142.9,23.72 A0.64,0.64 0 1 1 141.62,23.72 Z" android:fillColor="#FFFFFFFF" android:fillAlpha="0.3" />
+            <path android:name="s9" android:pathData="M32.24,99.88 A1.24,1.24 0 1 1 34.72,99.88 A1.24,1.24 0 1 1 32.24,99.88 Z" android:fillColor="#FFFFFFFF" android:fillAlpha="0.3" />
+            <path android:name="s10" android:pathData="M7.67,116.62 A1,1 0 1 1 9.68,116.62 A1,1 0 1 1 7.67,116.62 Z" android:fillColor="#FFFFFFFF" android:fillAlpha="0.3" />
+            <path android:name="s11" android:pathData="M42.05,105.37 A0.57,0.57 0 1 1 43.19,105.37 A0.57,0.57 0 1 1 42.05,105.37 Z" android:fillColor="#FFFFFFFF" android:fillAlpha="0.3" />
+            <path android:name="s12" android:pathData="M66.15,158.1 A1.13,1.13 0 1 1 68.42,158.1 A1.13,1.13 0 1 1 66.15,158.1 Z" android:fillColor="#FFFFFFFF" android:fillAlpha="0.3" />
+            <path android:name="s13" android:pathData="M129.63,177.05 A0.91,0.91 0 1 1 131.46,177.05 A0.91,0.91 0 1 1 129.63,177.05 Z" android:fillColor="#FFFFFFFF" android:fillAlpha="0.3" />
+            <path android:name="s14" android:pathData="M8.84,150.81 A0.68,0.68 0 1 1 10.19,150.81 A0.68,0.68 0 1 1 8.84,150.81 Z" android:fillColor="#FFFFFFFF" android:fillAlpha="0.3" />
+            <path android:name="s15" android:pathData="M94.08,170.76 A0.94,0.94 0 1 1 95.96,170.76 A0.94,0.94 0 1 1 94.08,170.76 Z" android:fillColor="#FFFFFFFF" android:fillAlpha="0.3" />
+            <path android:name="meteor" android:pathData="M182,14 L132,44" android:strokeColor="#FFFFFFFF" android:strokeAlpha="0.7" android:strokeWidth="0.9" android:strokeLineCap="round" android:trimPathEnd="0" />
+        </vector>
+    </aapt:attr>
+    <target android:name="s0">
+        <aapt:attr name="android:animation">
+            <objectAnimator android:propertyName="fillAlpha" android:valueFrom="0.17" android:valueTo="0.78" android:valueType="floatType" android:duration="3981" android:startOffset="1303" android:repeatCount="infinite" android:repeatMode="reverse" android:interpolator="@android:interpolator/accelerate_decelerate" />
+        </aapt:attr>
+    </target>
+    <target android:name="s1">
+        <aapt:attr name="android:animation">
+            <objectAnimator android:propertyName="fillAlpha" android:valueFrom="0.22" android:valueTo="0.89" android:valueType="floatType" android:duration="2599" android:startOffset="1515" android:repeatCount="infinite" android:repeatMode="reverse" android:interpolator="@android:interpolator/accelerate_decelerate" />
+        </aapt:attr>
+    </target>
+    <target android:name="s2">
+        <aapt:attr name="android:animation">
+            <objectAnimator android:propertyName="fillAlpha" android:valueFrom="0.25" android:valueTo="0.88" android:valueType="floatType" android:duration="1918" android:startOffset="967" android:repeatCount="infinite" android:repeatMode="reverse" android:interpolator="@android:interpolator/accelerate_decelerate" />
+        </aapt:attr>
+    </target>
+    <target android:name="s3">
+        <aapt:attr name="android:animation">
+            <objectAnimator android:propertyName="fillAlpha" android:valueFrom="0.22" android:valueTo="0.85" android:valueType="floatType" android:duration="3631" android:startOffset="715" android:repeatCount="infinite" android:repeatMode="reverse" android:interpolator="@android:interpolator/accelerate_decelerate" />
+        </aapt:attr>
+    </target>
+    <target android:name="s4">
+        <aapt:attr name="android:animation">
+            <objectAnimator android:propertyName="fillAlpha" android:valueFrom="0.16" android:valueTo="0.72" android:valueType="floatType" android:duration="2729" android:startOffset="988" android:repeatCount="infinite" android:repeatMode="reverse" android:interpolator="@android:interpolator/accelerate_decelerate" />
+        </aapt:attr>
+    </target>
+    <target android:name="s5">
+        <aapt:attr name="android:animation">
+            <objectAnimator android:propertyName="fillAlpha" android:valueFrom="0.23" android:valueTo="0.72" android:valueType="floatType" android:duration="3763" android:startOffset="1317" android:repeatCount="infinite" android:repeatMode="reverse" android:interpolator="@android:interpolator/accelerate_decelerate" />
+        </aapt:attr>
+    </target>
+    <target android:name="s6">
+        <aapt:attr name="android:animation">
+            <objectAnimator android:propertyName="fillAlpha" android:valueFrom="0.16" android:valueTo="0.66" android:valueType="floatType" android:duration="2616" android:startOffset="1616" android:repeatCount="infinite" android:repeatMode="reverse" android:interpolator="@android:interpolator/accelerate_decelerate" />
+        </aapt:attr>
+    </target>
+    <target android:name="s7">
+        <aapt:attr name="android:animation">
+            <objectAnimator android:propertyName="fillAlpha" android:valueFrom="0.16" android:valueTo="0.86" android:valueType="floatType" android:duration="3421" android:startOffset="173" android:repeatCount="infinite" android:repeatMode="reverse" android:interpolator="@android:interpolator/accelerate_decelerate" />
+        </aapt:attr>
+    </target>
+    <target android:name="s8">
+        <aapt:attr name="android:animation">
+            <objectAnimator android:propertyName="fillAlpha" android:valueFrom="0.18" android:valueTo="0.76" android:valueType="floatType" android:duration="2419" android:startOffset="1343" android:repeatCount="infinite" android:repeatMode="reverse" android:interpolator="@android:interpolator/accelerate_decelerate" />
+        </aapt:attr>
+    </target>
+    <target android:name="s9">
+        <aapt:attr name="android:animation">
+            <objectAnimator android:propertyName="fillAlpha" android:valueFrom="0.11" android:valueTo="0.79" android:valueType="floatType" android:duration="3235" android:startOffset="43" android:repeatCount="infinite" android:repeatMode="reverse" android:interpolator="@android:interpolator/accelerate_decelerate" />
+        </aapt:attr>
+    </target>
+    <target android:name="s10">
+        <aapt:attr name="android:animation">
+            <objectAnimator android:propertyName="fillAlpha" android:valueFrom="0.21" android:valueTo="0.65" android:valueType="floatType" android:duration="3956" android:startOffset="1785" android:repeatCount="infinite" android:repeatMode="reverse" android:interpolator="@android:interpolator/accelerate_decelerate" />
+        </aapt:attr>
+    </target>
+    <target android:name="s11">
+        <aapt:attr name="android:animation">
+            <objectAnimator android:propertyName="fillAlpha" android:valueFrom="0.13" android:valueTo="0.68" android:valueType="floatType" android:duration="2671" android:startOffset="1201" android:repeatCount="infinite" android:repeatMode="reverse" android:interpolator="@android:interpolator/accelerate_decelerate" />
+        </aapt:attr>
+    </target>
+    <target android:name="s12">
+        <aapt:attr name="android:animation">
+            <objectAnimator android:propertyName="fillAlpha" android:valueFrom="0.23" android:valueTo="0.72" android:valueType="floatType" android:duration="2049" android:startOffset="938" android:repeatCount="infinite" android:repeatMode="reverse" android:interpolator="@android:interpolator/accelerate_decelerate" />
+        </aapt:attr>
+    </target>
+    <target android:name="s13">
+        <aapt:attr name="android:animation">
+            <objectAnimator android:propertyName="fillAlpha" android:valueFrom="0.1" android:valueTo="0.65" android:valueType="floatType" android:duration="3854" android:startOffset="1045" android:repeatCount="infinite" android:repeatMode="reverse" android:interpolator="@android:interpolator/accelerate_decelerate" />
+        </aapt:attr>
+    </target>
+    <target android:name="s14">
+        <aapt:attr name="android:animation">
+            <objectAnimator android:propertyName="fillAlpha" android:valueFrom="0.21" android:valueTo="0.65" android:valueType="floatType" android:duration="1816" android:startOffset="289" android:repeatCount="infinite" android:repeatMode="reverse" android:interpolator="@android:interpolator/accelerate_decelerate" />
+        </aapt:attr>
+    </target>
+    <target android:name="s15">
+        <aapt:attr name="android:animation">
+            <objectAnimator android:propertyName="fillAlpha" android:valueFrom="0.2" android:valueTo="0.79" android:valueType="floatType" android:duration="3135" android:startOffset="988" android:repeatCount="infinite" android:repeatMode="reverse" android:interpolator="@android:interpolator/accelerate_decelerate" />
+        </aapt:attr>
+    </target>
+    <target android:name="meteor">
+        <aapt:attr name="android:animation">
+            <set android:ordering="together">
+            <objectAnimator android:duration="14000" android:repeatCount="infinite" android:interpolator="@android:interpolator/linear">
+                <propertyValuesHolder android:propertyName="trimPathEnd" android:valueType="floatType">
+                    <keyframe android:fraction="0" android:value="0" />
+                    <keyframe android:fraction="0.86" android:value="0" />
+                    <keyframe android:fraction="0.9" android:value="1" />
+                    <keyframe android:fraction="1" android:value="1" />
+                </propertyValuesHolder>
+            </objectAnimator>
+            <objectAnimator android:duration="14000" android:repeatCount="infinite" android:interpolator="@android:interpolator/linear">
+                <propertyValuesHolder android:propertyName="trimPathStart" android:valueType="floatType">
+                    <keyframe android:fraction="0" android:value="0" />
+                    <keyframe android:fraction="0.875" android:value="0" />
+                    <keyframe android:fraction="0.92" android:value="1" />
+                    <keyframe android:fraction="1" android:value="1" />
+                </propertyValuesHolder>
+            </objectAnimator>
+            </set>
+        </aapt:attr>
+    </target>
+</animated-vector>

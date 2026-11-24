@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Tempo" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">@color/navy_950</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+
+    <!-- Estilos de texto do widget -->
+    <style name="WText">
+        <item name="android:textColor">@color/ink_primary</item>
+        <item name="android:shadowColor">@color/ink_shadow</item>
+        <item name="android:shadowRadius">6</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+    <style name="WText.Temp">
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:letterSpacing">-0.04</item>
+        <item name="android:fontFeatureSettings">tnum</item>
+        <item name="android:shadowRadius">14</item>
+        <item name="android:shadowDy">2</item>
+    </style>
+    <style name="WText.City">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:letterSpacing">0.005</item>
+    </style>
+    <style name="WText.Region">
+        <item name="android:textSize">11.5sp</item>
+        <item name="android:textColor">@color/ink_tertiary</item>
+        <item name="android:letterSpacing">0.02</item>
+    </style>
+    <style name="WText.Condition">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/ink_secondary</item>
+    </style>
+    <style name="WText.Detail">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/ink_tertiary</item>
+        <item name="android:fontFeatureSettings">tnum</item>
+    </style>
+    <style name="WText.Caption">
+        <item name="android:textSize">10.5sp</item>
+        <item name="android:textColor">@color/ink_quaternary</item>
+        <item name="android:letterSpacing">0.03</item>
+        <item name="android:fontFeatureSettings">tnum</item>
+    </style>
+    <style name="WText.MetricValue">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:fontFeatureSettings">tnum</item>
+    </style>
+    <style name="WText.MetricLabel">
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/ink_tertiary</item>
+        <item name="android:letterSpacing">0.02</item>
+    </style>
+    <style name="WText.Day">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">11.5sp</item>
+        <item name="android:textColor">@color/ink_tertiary</item>
+        <item name="android:letterSpacing">0.04</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <style name="WText.DayMax">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:fontFeatureSettings">tnum</item>
+    </style>
+    <style name="WText.DayMin">
+        <item name="android:textSize">12.5sp</item>
+        <item name="android:textColor">@color/ink_tertiary</item>
+        <item name="android:gravity">center</item>
+        <item name="android:fontFeatureSettings">tnum</item>
+    </style>
+
+    <!-- ProgressBar usado como "palco" de AnimatedVectorDrawable (único jeito de animar em widgets) -->
+    <style name="WAmbient" parent="android:Widget.ProgressBar">
+        <item name="android:indeterminate">true</item>
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:maxWidth">2000dp</item>
+        <item name="android:maxHeight">2000dp</item>
+        <item name="android:visibility">gone</item>
+        <item name="android:importantForAccessibility">no</item>
+    </style>
+</resources>

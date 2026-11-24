@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Tempestade: chuva e relâmpago sutil entre as nuvens -->
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt">
+    <aapt:attr name="android:drawable">
+        <vector android:width="200dp" android:height="200dp"
+            android:viewportWidth="200" android:viewportHeight="200">
+            <path android:name="flash" android:pathData="M0,0 H200 V200 H0 Z" android:fillAlpha="0">
+                <aapt:attr name="android:fillColor">
+                    <gradient android:type="radial" android:centerX="150" android:centerY="0" android:gradientRadius="190">
+                        <item android:offset="0" android:color="#FFE6E9FF" />
+                        <item android:offset="0.5" android:color="#66B7B9FF" />
+                        <item android:offset="1" android:color="#00B7B9FF" />
+                    </gradient>
+                </aapt:attr>
+            </path>
+            <group android:name="d0" android:translateY="-40">
+                <path android:pathData="M-7.1,0 L-10.36,14.82" android:strokeColor="#FFCFE4FF" android:strokeAlpha="0.17" android:strokeWidth="0.9" android:strokeLineCap="round" />
+            </group>
+            <group android:name="d1" android:translateY="-40">
+                <path android:pathData="M24.96,0 L22.16,12.74" android:strokeColor="#FFCFE4FF" android:strokeAlpha="0.23" android:strokeWidth="0.9" android:strokeLineCap="round" />
+            </group>
+            <group android:name="d2" android:translateY="-40">
+                <path android:pathData="M155.72,0 L152.94,12.61" android:strokeColor="#FFCFE4FF" android:strokeAlpha="0.23" android:strokeWidth="0.9" android:strokeLineCap="round" />
+            </group>
+            <group android:name="d3" android:translateY="-40">
+                <path android:pathData="M99.59,0 L96.27,15.1" android:strokeColor="#FFCFE4FF" android:strokeAlpha="0.27" android:strokeWidth="0.9" android:strokeLineCap="round" />
+            </group>
+            <group android:name="d4" android:translateY="-40">
+                <path android:pathData="M85.54,0 L82.95,11.76" android:strokeColor="#FFCFE4FF" android:strokeAlpha="0.21" android:strokeWidth="0.9" android:strokeLineCap="round" />
+            </group>
+            <group android:name="d5" android:translateY="-40">
+                <path android:pathData="M35.75,0 L32.25,15.89" android:strokeColor="#FFCFE4FF" android:strokeAlpha="0.2" android:strokeWidth="0.9" android:strokeLineCap="round" />
+            </group>
+            <group android:name="d6" android:translateY="-40">
+                <path android:pathData="M134.17,0 L132.04,9.72" android:strokeColor="#FFCFE4FF" android:strokeAlpha="0.22" android:strokeWidth="0.9" android:strokeLineCap="round" />
+            </group>
+            <group android:name="d7" android:translateY="-40">
+                <path android:pathData="M217.75,0 L214.82,13.3" android:strokeColor="#FFCFE4FF" android:strokeAlpha="0.15" android:strokeWidth="0.9" android:strokeLineCap="round" />
+            </group>
+            <group android:name="d8" android:translateY="-40">
+                <path android:pathData="M25.65,0 L23.28,10.77" android:strokeColor="#FFCFE4FF" android:strokeAlpha="0.19" android:strokeWidth="0.9" android:strokeLineCap="round" />
+            </group>
+            <group android:name="d9" android:translateY="-40">
+                <path android:pathData="M19.48,0 L16.19,14.94" android:strokeColor="#FFCFE4FF" android:strokeAlpha="0.28" android:strokeWidth="0.9" android:strokeLineCap="round" />
+            </group>
+            <group android:name="d10" android:translateY="-40">
+                <path android:pathData="M106.12,0 L104.01,9.6" android:strokeColor="#FFCFE4FF" android:strokeAlpha="0.15" android:strokeWidth="0.9" android:strokeLineCap="round" />
+            </group>
+            <group android:name="d11" android:translateY="-40">
+                <path android:pathData="M104.87,0 L101.82,13.84" android:strokeColor="#FFCFE4FF" android:strokeAlpha="0.21" android:strokeWidth="0.9" android:strokeLineCap="round" />
+            </group>
+            <group android:name="d12" android:translateY="-40">
+                <path android:pathData="M76.82,0 L73.78,13.83" android:strokeColor="#FFCFE4FF" android:strokeAlpha="0.27" android:strokeWidth="0.9" android:strokeLineCap="round" />
+            </group>
+            <group android:name="d13" android:translateY="-40">
+                <path android:pathData="M61.54,0 L58.57,13.5" android:strokeColor="#FFCFE4FF" android:strokeAlpha="0.15" android:strokeWidth="0.9" android:strokeLineCap="round" />
+            </group>
+        </vector>
+    </aapt:attr>
+    <target android:name="flash">
+        <aapt:attr name="android:animation">
+            <objectAnimator android:duration="9000" android:repeatCount="infinite" android:interpolator="@android:interpolator/linear">
+                <propertyValuesHolder android:propertyName="fillAlpha" android:valueType="floatType">
+                    <keyframe android:fraction="0" android:value="0" />
+                    <keyframe android:fraction="0.62" android:value="0" />
+                    <keyframe android:fraction="0.63" android:value="0.3" />
+                    <keyframe android:fraction="0.645" android:value="0.05" />
+                    <keyframe android:fraction="0.66" android:value="0.22" />
+                    <keyframe android:fraction="0.7" android:value="0" />
+                    <keyframe android:fraction="1" android:value="0" />
+                </propertyValuesHolder>
+            </objectAnimator>
+        </aapt:attr>
+    </target>
+    <target android:name="d0">
+        <aapt:attr name="android:animation">
+            <set android:ordering="together">
+            <objectAnimator android:propertyName="translateY" android:valueFrom="-40" android:valueTo="220" android:valueType="floatType" android:duration="904" android:startOffset="8" android:repeatCount="infinite" android:interpolator="@android:interpolator/linear" />
+            <objectAnimator android:propertyName="translateX" android:valueFrom="0" android:valueTo="-56" android:valueType="floatType" android:duration="904" android:startOffset="8" android:repeatCount="infinite" android:interpolator="@android:interpolator/linear" />
+            </set>
+        </aapt:attr>
+    </target>
+    <target android:name="d1">
+        <aapt:attr name="android:animation">
+            <set android:ordering="together">
+            <objectAnimator android:propertyName="translateY" android:valueFrom="-40" android:valueTo="220" android:valueType="floatType" android:duration="923" android:startOffset="257" android:repeatCount="infinite" android:interpolator="@android:interpolator/linear" />
+            <objectAnimator android:propertyName="translateX" android:valueFrom="0" android:valueTo="-56" android:valueType="floatType" android:duration="923" android:startOffset="257" android:repeatCount="infinite" android:interpolator="@android:interpolator/linear" />
+            </set>
+        </aapt:attr>
+    </target>
+    <target android:name="d2">
+        <aapt:attr name="android:animation">
+            <set android:ordering="together">
+            <objectAnimator android:propertyName="translateY" android:valueFrom="-40" android:valueTo="220" android:valueType="floatType" android:duration="1106" android:startOffset="110" android:repeatCount="infinite" android:interpolator="@android:interpolator/linear" />
+            <objectAnimator android:propertyName="translateX" android:valueFrom="0" android:valueTo="-56" android:valueType="floatType" android:duration="1106" android:startOffset="110" android:repeatCount="infinite" android:interpolator="@android:interpolator/linear" />
+            </set>
+        </aapt:attr>
+    </target>
+    <target android:name="d3">
+        <aapt:attr name="android:animation">
+            <set android:ordering="together">
+            <objectAnimator android:propertyName="translateY" android:valueFrom="-40" android:valueTo="220" android:valueType="floatType" android:duration="1108" android:startOffset="803" android:repeatCount="infinite" android:interpolator="@android:interpolator/linear" />
+            <objectAnimator android:propertyName="translateX" android:valueFrom="0" android:valueTo="-56" android:valueType="floatType" android:duration="1108" android:startOffset="803" android:repeatCount="infinite" android:interpolator="@android:interpolator/linear" />
+            </set>
+        </aapt:attr>
+    </target>
+    <target android:name="d4">
+        <aapt:attr name="android:animation">
+            <set android:ordering="together">
+            <objectAnimator android:propertyName="translateY" android:valueFrom="-40" android:valueTo="220" android:valueType="floatType" android:duration="965" android:startOffset="127" android:repeatCount="infinite" android:interpolator="@android:interpolator/linear" />
+            <objectAnimator android:propertyName="translateX" android:valueFrom="0" android:valueTo="-56" android:valueType="floatType" android:duration="965" android:startOffset="127" android:repeatCount="infinite" android:interpolator="@android:interpolator/linear" />
+            </set>
+        </aapt:attr>
+    </target>
+    <target android:name="d5">
+        <aapt:attr name="android:animation">
+            <set android:ordering="together">
+            <objectAnimator android:propertyName="translateY" android:valueFrom="-40" android:valueTo="220" android:valueType="floatType" android:duration="816" android:startOffset="696" android:repeatCount="infinite" android:interpolator="@android:interpolator/linear" />
+            <objectAnimator android:propertyName="translateX" android:valueFrom="0" android:valueTo="-56" android:valueType="floatType" android:duration="816" android:startOffset="696" android:repeatCount="infinite" android:interpolator="@android:interpolator/linear" />
+            </set>
+        </aapt:attr>
+    </target>
+    <target android:name="d6">
+        <aapt:attr name="android:animation">
+            <set android:ordering="together">
+            <objectAnimator android:propertyName="translateY" android:valueFrom="-40" android:valueTo="220" android:valueType="floatType" android:duration="1034" android:startOffset="207" android:repeatCount="infinite" android:interpolator="@android:interpolator/linear" />
+            <objectAnimator android:propertyName="translateX" android:valueFrom="0" android:valueTo="-56" android:valueType="floatType" android:duration="1034" android:startOffset="207" android:repeatCount="infinite" android:interpolator="@android:interpolator/linear" />
+            </set>
+        </aapt:attr>
+    </target>
+    <target android:name="d7">
+        <aapt:attr name="android:animation">
+            <set android:ordering="together">
+            <objectAnimator android:propertyName="translateY" android:valueFrom="-40" android:valueTo="220" android:valueType="floatType" android:duration="866" android:startOffset="770" android:repeatCount="infinite" android:interpolator="@android:interpolator/linear" />
+            <objectAnimator android:propertyName="translateX" android:valueFrom="0" android:valueTo="-56" android:valueType="floatType" android:duration="866" android:startOffset="770" android:repeatCount="infinite" android:interpolator="@android:interpolator/linear" />
+            </set>
+        </aapt:attr>
+    </target>
+    <target android:name="d8">
+        <aapt:attr name="android:animation">
+            <set android:ordering="together">
+            <objectAnimator android:propertyName="translateY" android:valueFrom="-40" android:valueTo="220" android:valueType="floatType" android:duration="946" android:startOffset="971" android:repeatCount="infinite" android:interpolator="@android:interpolator/linear" />
+            <objectAnimator android:propertyName="translateX" android:valueFrom="0" android:valueTo="-56" android:valueType="floatType" android:duration="946" android:startOffset="971" android:repeatCount="infinite" android:interpolator="@android:interpolator/linear" />
+            </set>
+        </aapt:attr>
+    </target>
+    <target android:name="d9">
+        <aapt:attr name="android:animation">
+            <set android:ordering="together">
+            <objectAnimator android:propertyName="translateY" android:valueFrom="-40" android:valueTo="220" android:valueType="floatType" android:duration="998" android:startOffset="983" android:repeatCount="infinite" android:interpolator="@android:interpolator/linear" />
+            <objectAnimator android:propertyName="translateX" android:valueFrom="0" android:valueTo="-56" android:valueType="floatType" android:duration="998" android:startOffset="983" android:repeatCount="infinite" android:interpolator="@android:interpolator/linear" />
+            </set>
+        </aapt:attr>
+    </target>
+    <target android:name="d10">
+        <aapt:attr name="android:animation">
+            <set android:ordering="together">
+            <objectAnimator android:propertyName="translateY" android:valueFrom="-40" android:valueTo="220" android:valueType="floatType" android:duration="935" android:startOffset="542" android:repeatCount="infinite" android:interpolator="@android:interpolator/linear" />
+            <objectAnimator android:propertyName="translateX" android:valueFrom="0" android:valueTo="-56" android:valueType="floatType" android:duration="935" android:startOffset="542" android:repeatCount="infinite" android:interpolator="@android:interpolator/linear" />
+            </set>
+        </aapt:attr>
+    </target>
+    <target android:name="d11">
+        <aapt:attr name="android:animation">
+            <set android:ordering="together">
+            <objectAnimator android:propertyName="translateY" android:valueFrom="-40" android:valueTo="220" android:valueType="floatType" android:duration="865" android:startOffset="1081" android:repeatCount="infinite" android:interpolator="@android:interpolator/linear" />
+            <objectAnimator android:propertyName="translateX" android:valueFrom="0" android:valueTo="-56" android:valueType="floatType" android:duration="865" android:startOffset="1081" android:repeatCount="infinite" android:interpolator="@android:interpolator/linear" />
+            </set>
+        </aapt:attr>
+    </target>
+    <target android:name="d12">
+        <aapt:attr name="android:animation">
+            <set android:ordering="together">
+            <objectAnimator android:propertyName="translateY" android:valueFrom="-40" android:valueTo="220" android:valueType="floatType" android:duration="1148" android:startOffset="1081" android:repeatCount="infinite" android:interpolator="@android:interpolator/linear" />
+            <objectAnimator android:propertyName="translateX" android:valueFrom="0" android:valueTo="-56" android:valueType="floatType" android:duration="1148" android:startOffset="1081" android:repeatCount="infinite" android:interpolator="@android:interpolator/linear" />
+            </set>
+        </aapt:attr>
+    </target>
+    <target android:name="d13">
+        <aapt:attr name="android:animation">
+            <set android:ordering="together">
+            <objectAnimator android:propertyName="translateY" android:valueFrom="-40" android:valueTo="220" android:valueType="floatType" android:duration="893" android:startOffset="1061" android:repeatCount="infinite" android:interpolator="@android:interpolator/linear" />
+            <objectAnimator android:propertyName="translateX" android:valueFrom="0" android:valueTo="-56" android:valueType="floatType" android:duration="893" android:startOffset="1061" android:repeatCount="infinite" android:interpolator="@android:interpolator/linear" />
+            </set>
+        </aapt:attr>
+    </target>
+</animated-vector>

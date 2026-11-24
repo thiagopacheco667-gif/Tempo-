@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Nublado: névoa luminosa que se desloca lentamente -->
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt">
+    <aapt:attr name="android:drawable">
+        <vector android:width="200dp" android:height="200dp"
+            android:viewportWidth="200" android:viewportHeight="200">
+            <group android:name="m1">
+                <path android:pathData="M-30,70 A90,40 0 1 1 150,70 A90,40 0 1 1 -30,70 Z" android:fillAlpha="0.09">
+                    <aapt:attr name="android:fillColor">
+                        <gradient android:type="radial" android:centerX="60" android:centerY="70" android:gradientRadius="90">
+                            <item android:offset="0" android:color="#FFE8EEF8" />
+                            <item android:offset="1" android:color="#00E8EEF8" />
+                        </gradient>
+                    </aapt:attr>
+                </path>
+            </group>
+            <group android:name="m2">
+                <path android:pathData="M50,150 A100,45 0 1 1 250,150 A100,45 0 1 1 50,150 Z" android:fillAlpha="0.07">
+                    <aapt:attr name="android:fillColor">
+                        <gradient android:type="radial" android:centerX="150" android:centerY="150" android:gradientRadius="100">
+                            <item android:offset="0" android:color="#FFE8EEF8" />
+                            <item android:offset="1" android:color="#00E8EEF8" />
+                        </gradient>
+                    </aapt:attr>
+                </path>
+            </group>
+            <group android:name="m3">
+                <path android:pathData="M100,40 A70,30 0 1 1 240,40 A70,30 0 1 1 100,40 Z" android:fillAlpha="0.06">
+                    <aapt:attr name="android:fillColor">
+                        <gradient android:type="radial" android:centerX="170" android:centerY="40" android:gradientRadius="70">
+                            <item android:offset="0" android:color="#FFE8EEF8" />
+                            <item android:offset="1" android:color="#00E8EEF8" />
+                        </gradient>
+                    </aapt:attr>
+                </path>
+            </group>
+        </vector>
+    </aapt:attr>
+    <target android:name="m1">
+        <aapt:attr name="android:animation">
+            <objectAnimator android:propertyName="translateX" android:valueFrom="-18" android:valueTo="26" android:valueType="floatType" android:duration="16000" android:startOffset="0" android:repeatCount="infinite" android:repeatMode="reverse" android:interpolator="@android:interpolator/accelerate_decelerate" />
+        </aapt:attr>
+    </target>
+    <target android:name="m2">
+        <aapt:attr name="android:animation">
+            <objectAnimator android:propertyName="translateX" android:valueFrom="22" android:valueTo="-24" android:valueType="floatType" android:duration="21000" android:startOffset="0" android:repeatCount="infinite" android:repeatMode="reverse" android:interpolator="@android:interpolator/accelerate_decelerate" />
+        </aapt:attr>
+    </target>
+    <target android:name="m3">
+        <aapt:attr name="android:animation">
+            <objectAnimator android:propertyName="translateX" android:valueFrom="10" android:valueTo="-20" android:valueType="floatType" android:duration="18000" android:startOffset="0" android:repeatCount="infinite" android:repeatMode="reverse" android:interpolator="@android:interpolator/accelerate_decelerate" />
+        </aapt:attr>
+    </target>
+</animated-vector>

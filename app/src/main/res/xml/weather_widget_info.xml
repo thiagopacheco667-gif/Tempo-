@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  4x3 por padrão (versão expandida). Redimensionável de 2x2 (compacta) até tela cheia.
+  updatePeriodMillis = 0: as atualizações são feitas pelo WorkManager, que respeita Doze e rede.
+-->
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:minWidth="250dp"
+    android:minHeight="180dp"
+    android:targetCellWidth="4"
+    android:targetCellHeight="3"
+    android:minResizeWidth="110dp"
+    android:minResizeHeight="100dp"
+    android:maxResizeWidth="600dp"
+    android:maxResizeHeight="600dp"
+    android:resizeMode="horizontal|vertical"
+    android:widgetCategory="home_screen"
+    android:updatePeriodMillis="0"
+    android:initialLayout="@layout/widget_expanded"
+    android:previewLayout="@layout/widget_expanded"
+    android:description="@string/widget_description"
+    android:configure="app.tempo.weather.ui.MainActivity"
+    android:widgetFeatures="reconfigurable|configuration_optional" />

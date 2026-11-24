@@ -174,6 +174,7 @@ object WidgetRenderer {
         rv.setTextViewText(R.id.city, snap.place.name)
         rv.setTextViewText(R.id.region, snap.place.region.takeIf { it.isNotBlank() }?.let { "· $it" } ?: "")
 
+        rv.setViewVisibility(R.id.temp_box, View.VISIBLE)
         state.temp.apply(rv, R.id.temp_a, R.id.temp_b) { id, value ->
             rv.setTextViewText(id, tempSpan(value, atmosphere.accent))
         }
@@ -246,17 +247,16 @@ object WidgetRenderer {
     private fun renderEmpty(context: Context, rv: RemoteViews, size: WidgetSize, model: RenderModel, state: CrossfadeState) {
         rv.setTextViewText(R.id.city, model.pendingPlaceName ?: context.getString(R.string.app_name))
         rv.setTextViewText(R.id.region, "")
-        state.temp.apply(rv, R.id.temp_a, R.id.temp_b) { id, _ ->
-            rv.setTextViewText(id, tempSpan("\u2014", Atmosphere.NIGHT.accent))
-        }
+        // Sem dados não há temperatura: nada de placeholder que pareça um número.
+        rv.setViewVisibility(R.id.temp_box, View.GONE)
         state.icon.apply(rv, R.id.icon_a, R.id.icon_b) { id, value ->
             rv.setImageViewResource(id, iconFromKey(value))
             rv.setInt(id, "setImageAlpha", 90)
         }
         val message = when {
             model.refreshing -> "Carregando…"
-            model.lastError != null -> "Sem dados"
-            else -> "Configure no app"
+            size == WidgetSize.COMPACT -> "Escolher cidade"
+            else -> "Toque para escolher a cidade"
         }
         rv.setTextViewText(R.id.condition, message)
         rv.setTextViewText(R.id.hilo, "")

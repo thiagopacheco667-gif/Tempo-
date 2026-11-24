@@ -44,7 +44,8 @@ class WeatherRepository(private val context: Context) {
             val msg = when {
                 store.locationMode == LocationMode.MANUAL -> "Escolha uma cidade"
                 !locator.hasPermission() -> "Permita a localização ou escolha uma cidade"
-                else -> "Localização indisponível"
+                !locator.isLocationEnabled() -> "Ative a localização do aparelho ou escolha uma cidade"
+                else -> "Não foi possível obter sua posição. Escolha uma cidade"
             }
             store.lastError = msg
             return@withContext RefreshResult.Failure(msg, recoverable = false)

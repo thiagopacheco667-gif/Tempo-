@@ -13,6 +13,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.lifecycle.lifecycleScope
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
@@ -119,11 +120,26 @@ class MainActivity : ComponentActivity() {
         val store = WeatherStore(this)
         val age = store.snapshot?.let { System.currentTimeMillis() - it.fetchedAt } ?: Long.MAX_VALUE
         if (age > 15 * 60_000L && !store.isRefreshing()) {
-            store.refreshingSince = System.currentTimeMillis()
-            WeatherWidgetProvider.renderAll(this)
-            UpdateScheduler.refreshNow(this)
+            lifecycleScope.launch { refreshWithForegroundLocation(this@MainActivity) }
         }
     }
+}
+
+/**
+ * Obtém a posição enquanto o app está visível (sem restrições de segundo plano) e só então
+ * dispara a atualização. O worker reaproveita essa posição recente.
+ */
+suspend fun refreshWithForegroundLocation(context: android.content.Context) {
+    val store = WeatherStore(context)
+    store.refreshingSince = System.currentTimeMillis()
+    WeatherWidgetProvider.renderAll(context)
+    val locator = DeviceLocator(context)
+    if (store.locationMode == LocationMode.AUTO && locator.hasPermission()) {
+        runCatching {
+            locator.locate()?.let { store.lastAutoPlace = locator.describe(it, store.lastAutoPlace) }
+        }
+    }
+    UpdateScheduler.refreshNow(context)
 }
 
 @Composable
@@ -142,9 +158,7 @@ private fun SettingsScreen(isConfiguring: Boolean, onDone: () -> Unit) {
     }
 
     fun refresh() {
-        store.refreshingSince = System.currentTimeMillis()
-        WeatherWidgetProvider.renderAll(context)
-        UpdateScheduler.refreshNow(context)
+        scope.launch { refreshWithForegroundLocation(context) }
     }
 
     var hasPermission by remember { mutableStateOf(locator.hasPermission()) }
@@ -198,6 +212,19 @@ private fun SettingsScreen(isConfiguring: Boolean, onDone: () -> Unit) {
                             else -> "Escolha a localização abaixo"
                         }
                         Text(sub, color = Ink3, fontSize = 12.5.sp, modifier = Modifier.padding(top = 2.dp))
+                        if (error != null && hasPermission && !locator.isLocationEnabled()) {
+                            Text(
+                                "Ativar localização do aparelho",
+                                color = Accent, fontSize = 13.sp, fontWeight = FontWeight.Medium,
+                                modifier = Modifier
+                                    .padding(top = 10.dp)
+                                    .clickable {
+                                        context.startActivity(
+                                            Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
+                                        )
+                                    },
+                            )
+                        }
                     }
                     if (refreshing) {
                         CircularProgressIndicator(Modifier.size(22.dp), color = Accent, strokeWidth = 2.dp)
@@ -211,9 +238,23 @@ private fun SettingsScreen(isConfiguring: Boolean, onDone: () -> Unit) {
                 }
             }
 
+            val mode = remember(version) { store.locationMode }
+            val citySearch: @Composable () -> Unit = {
+                CitySearch(
+                    selected = remember(version) { store.manualPlace?.let { listOf(it.name, it.region).filter(String::isNotBlank).joinToString(" · ") } },
+                    manualActive = mode == LocationMode.MANUAL || !hasPermission,
+                    onPick = { city ->
+                        store.manualPlace = city.toPlace()
+                        store.locationMode = LocationMode.MANUAL
+                        refresh()
+                    },
+                )
+            }
+            // Sem nenhum dado ainda: a busca de cidade vem primeiro, é o caminho mais rápido.
+            if (snap == null) citySearch()
+
             // ----- Localização -----
             SectionTitle("Localização")
-            val mode = remember(version) { store.locationMode }
             GlassCard {
                 ToggleRow(
                     title = "Usar minha localização",
@@ -253,15 +294,7 @@ private fun SettingsScreen(isConfiguring: Boolean, onDone: () -> Unit) {
                 }
             }
 
-            CitySearch(
-                selected = remember(version) { store.manualPlace?.let { listOf(it.name, it.region).filter(String::isNotBlank).joinToString(" · ") } },
-                manualActive = mode == LocationMode.MANUAL || !hasPermission,
-                onPick = { city ->
-                    store.manualPlace = city.toPlace()
-                    store.locationMode = LocationMode.MANUAL
-                    refresh()
-                },
-            )
+            if (snap != null) citySearch()
 
             // ----- Preferências -----
             SectionTitle("Atualização automática")

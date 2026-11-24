@@ -11,6 +11,7 @@ import android.location.LocationManager
 import android.os.Build
 import android.os.CancellationSignal
 import androidx.core.content.ContextCompat
+import androidx.core.location.LocationManagerCompat
 import app.tempo.weather.data.Place
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -36,50 +37,55 @@ class DeviceLocator(private val context: Context) {
     private fun granted(p: String) =
         ContextCompat.checkSelfPermission(context, p) == PackageManager.PERMISSION_GRANTED
 
-    /** Retorna uma posição recente, ou null se não houver permissão/sinal. */
+    /** Localização do aparelho ligada nas configurações rápidas. */
+    fun isLocationEnabled(): Boolean = runCatching { LocationManagerCompat.isLocationEnabled(lm) }.getOrDefault(true)
+
+    /**
+     * Retorna uma posição recente, ou null se não houver permissão/sinal.
+     * Tenta todos os provedores disponíveis em sequência: em vários aparelhos (ex.: Xiaomi/HyperOS
+     * sem serviços do Google) o provedor "fused" existe mas nunca entrega posição.
+     */
     @SuppressLint("MissingPermission")
     suspend fun locate(maxAgeMs: Long = 30 * 60_000L): Location? {
         if (!hasPermission()) return null
-        return try {
-            val last = lastKnown()
-            if (last != null && System.currentTimeMillis() - last.time <= maxAgeMs) return last
-            fresh() ?: last
-        } catch (_: SecurityException) {
-            null
+        val last = lastKnown()
+        if (last != null && System.currentTimeMillis() - last.time <= maxAgeMs) return last
+        for (provider in liveProviders()) {
+            val loc = current(provider)
+            if (loc != null) return loc
         }
+        // Sem posição nova: uma posição antiga ainda indica a cidade corretamente na maioria dos casos.
+        return last
     }
 
     @SuppressLint("MissingPermission")
-    private fun lastKnown(): Location? = providers().mapNotNull {
+    private fun lastKnown(): Location? = allProviders().mapNotNull {
         runCatching { lm.getLastKnownLocation(it) }.getOrNull()
     }.maxByOrNull { it.time }
 
     @SuppressLint("MissingPermission")
-    private suspend fun fresh(): Location? {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) return null
-        val provider = providers().firstOrNull { runCatching { lm.isProviderEnabled(it) }.getOrDefault(false) }
-            ?: return null
-        return withTimeoutOrNull(12_000L) {
-            suspendCancellableCoroutine { cont ->
-                val signal = CancellationSignal()
-                cont.invokeOnCancellation { signal.cancel() }
-                try {
-                    lm.getCurrentLocation(provider, signal, ContextCompat.getMainExecutor(context)) { loc ->
-                        if (cont.isActive) cont.resume(loc)
-                    }
-                } catch (e: Exception) {
-                    if (cont.isActive) cont.resume(null)
+    private suspend fun current(provider: String): Location? = withTimeoutOrNull(10_000L) {
+        suspendCancellableCoroutine { cont ->
+            val signal = CancellationSignal()
+            cont.invokeOnCancellation { signal.cancel() }
+            try {
+                LocationManagerCompat.getCurrentLocation(lm, provider, signal, ContextCompat.getMainExecutor(context)) { loc ->
+                    if (cont.isActive) cont.resume(loc)
                 }
+            } catch (_: Exception) {
+                if (cont.isActive) cont.resume(null)
             }
         }
     }
 
-    private fun providers(): List<String> = buildList {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) add(LocationManager.FUSED_PROVIDER)
+    /** Provedores ativos, do mais rápido/econômico ao mais lento. */
+    private fun liveProviders(): List<String> = buildList {
         add(LocationManager.NETWORK_PROVIDER)
-        if (granted(Manifest.permission.ACCESS_FINE_LOCATION)) add(LocationManager.GPS_PROVIDER)
-        add(LocationManager.PASSIVE_PROVIDER)
-    }.filter { runCatching { lm.allProviders.contains(it) }.getOrDefault(false) }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) add(LocationManager.FUSED_PROVIDER)
+        add(LocationManager.GPS_PROVIDER)
+    }.filter { p -> p in allProviders() && runCatching { lm.isProviderEnabled(p) }.getOrDefault(false) }
+
+    private fun allProviders(): List<String> = runCatching { lm.allProviders }.getOrDefault(emptyList())
 
     /**
      * Converte coordenadas em nome de cidade com o Geocoder do sistema.

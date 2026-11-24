@@ -79,12 +79,12 @@ def status(extra=""):
 def alert_chip():
     return '''<LinearLayout android:id="@+id/alert_chip" android:layout_width="wrap_content" android:layout_height="22dp"
                     android:layout_marginStart="4dp" android:layout_marginEnd="8dp" android:background="@drawable/chip"
-                    android:gravity="center_vertical" android:orientation="horizontal" android:paddingStart="7dp"
-                    android:paddingEnd="9dp" android:visibility="gone">
+                    android:gravity="center_vertical" android:orientation="horizontal" android:paddingStart="8dp"
+                    android:paddingEnd="8dp" android:visibility="gone">
                     <ImageView android:id="@+id/alert_icon" android:layout_width="11dp" android:layout_height="11dp"
-                        android:layout_marginEnd="5dp" android:src="@drawable/gl_alert" android:importantForAccessibility="no" />
+                        android:src="@drawable/gl_alert" android:importantForAccessibility="no" />
                     <TextView android:id="@+id/alert_text" style="@style/WText.Chip" android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content" android:layout_marginStart="5dp" android:layout_marginEnd="1dp" />
                 </LinearLayout>'''
 
 
@@ -140,7 +140,7 @@ def metrics(two_line, top, vpad):
                     <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
                         android:gravity="center_vertical" android:orientation="horizontal">
                         <ImageView android:id="@+id/m{i}_icon" android:layout_width="13dp" android:layout_height="13dp"
-                            android:layout_marginEnd="5dp" android:src="@drawable/{glyph}" android:importantForAccessibility="no" />
+                            android:layout_marginEnd="4dp" android:src="@drawable/{glyph}" android:importantForAccessibility="no" />
                         <TextView android:id="@+id/m{i}_value" style="@style/WText.MetricValue" android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
                     </LinearLayout>{label}
@@ -192,7 +192,7 @@ def alert_banner():
             <ImageView android:id="@+id/banner_icon" android:layout_width="13dp" android:layout_height="13dp"
                 android:layout_marginEnd="7dp" android:src="@drawable/gl_alert" android:importantForAccessibility="no" />
             <TextView android:id="@+id/banner_text" style="@style/WText.Chip" android:layout_width="0dp"
-                android:layout_height="wrap_content" android:layout_weight="1" android:textSize="12sp" />
+                android:layout_height="wrap_content" android:layout_weight="1" android:textSize="12sp" android:maxLines="2" />
         </LinearLayout>'''
 
 
@@ -205,19 +205,14 @@ compact = f'''    <LinearLayout android:layout_width="match_parent" android:layo
         android:orientation="vertical" android:padding="14dp">
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
             android:gravity="center_vertical" android:orientation="horizontal">
+            <ImageView android:id="@+id/status_dot" android:layout_width="5dp" android:layout_height="5dp"
+                android:layout_marginEnd="6dp" android:src="@drawable/status_dot" android:importantForAccessibility="no" />
             <TextView android:id="@+id/city" style="@style/WText.City" android:layout_width="0dp"
                 android:layout_height="wrap_content" android:layout_weight="1" android:textSize="13.5sp"
                 android:text="@string/app_name" />
             <ImageView android:id="@+id/alert_icon" android:layout_width="13dp" android:layout_height="13dp"
                 android:layout_marginStart="4dp" android:src="@drawable/gl_alert" android:visibility="gone"
                 android:contentDescription="@string/cd_alert" />
-        </LinearLayout>
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:layout_marginTop="4dp" android:gravity="center_vertical" android:orientation="horizontal">
-            <ImageView android:id="@+id/status_dot" android:layout_width="5dp" android:layout_height="5dp"
-                android:layout_marginEnd="5dp" android:src="@drawable/status_dot" android:importantForAccessibility="no" />
-            <TextView android:id="@+id/updated" style="@style/WText.Caption" android:layout_width="0dp"
-                android:layout_height="wrap_content" android:layout_weight="1" />
         </LinearLayout>
         <FrameLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" />
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -253,17 +248,18 @@ medium = f'''    <LinearLayout android:layout_width="match_parent" android:layou
         {header(height=28)}
         <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1"
             android:gravity="center_vertical" android:orientation="horizontal">
-            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
-                android:orientation="vertical">
-                <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:gravity="center_vertical" android:orientation="horizontal">
-                    {temp_pair(48, ' android:layout_marginStart="-2dp"')}
-                    {icon_box(36, ' android:layout_marginStart="6dp"')}
+            <!-- Temperatura e, ao lado, ícone + condição + máx/mín: pouca altura, resistente a fontes grandes -->
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1.35"
+                android:gravity="center_vertical" android:orientation="horizontal">
+                {temp_pair(46, ' android:layout_marginStart="-2dp"')}
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                    android:layout_marginStart="8dp" android:orientation="vertical">
+                    {icon_box(26)}
+                    <TextView android:id="@+id/condition" style="@style/WText.Condition" android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:layout_marginTop="2dp" android:textSize="12.5sp" />
+                    <TextView android:id="@+id/hilo" style="@style/WText.HiLo" android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:layout_marginTop="2dp" android:textSize="12sp" />
                 </LinearLayout>
-                <TextView android:id="@+id/condition" style="@style/WText.Condition" android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:textSize="13sp" />
-                <TextView android:id="@+id/hilo" style="@style/WText.HiLo" android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:layout_marginTop="2dp" />
             </LinearLayout>
             <ImageView android:id="@+id/divider" android:layout_width="1dp" android:layout_height="58dp"
                 android:layout_marginStart="10dp" android:layout_marginEnd="12dp" android:src="@drawable/hairline_v"

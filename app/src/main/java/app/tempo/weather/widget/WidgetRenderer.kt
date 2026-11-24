@@ -55,10 +55,10 @@ enum class WidgetSize(
 ) {
     COMPACT(R.layout.widget_compact, 0f, 0f, 46f, showFeels = false, showMetrics = false),
     MEDIUM_SHORT(R.layout.widget_expanded, 220f, 0f, 44f, iconDp = 44f, showFeels = false, showMetrics = false),
-    MEDIUM_NARROW(R.layout.widget_medium, 220f, 150f, 44f, iconDp = 0f, miniForecast = true),
-    MEDIUM(R.layout.widget_medium, 280f, 150f, 44f, miniForecast = true),
-    EXPANDED_NARROW(R.layout.widget_expanded, 250f, 250f, 54f, iconDp = 48f, showFeels = false, forecast = true),
-    EXPANDED(R.layout.widget_expanded, 300f, 250f, 62f, metricLabels = true, forecast = true),
+    MEDIUM_NARROW(R.layout.widget_expanded, 220f, 150f, 46f, iconDp = 44f, showFeels = false),
+    MEDIUM(R.layout.widget_medium, 280f, 150f, 48f, miniForecast = true),
+    EXPANDED_NARROW(R.layout.widget_expanded, 250f, 250f, 54f, iconDp = 48f, showFeels = false, showMetrics = false, forecast = true),
+    EXPANDED(R.layout.widget_expanded, 300f, 250f, 62f, forecast = true),
     LARGE(R.layout.widget_expanded, 300f, 330f, 72f, iconDp = 68f, metricLabels = true, forecast = true, roomy = true);
 
     companion object {
@@ -177,6 +177,8 @@ object WidgetRenderer {
         // --- Status de atualização ---
         val (statusText, fresh) = statusLine(context, model, short = !size.roomy)
         rv.setTextViewText(R.id.updated, statusText)
+        // Em larguras estreitas só o ponto de status fica, para o nome da cidade caber.
+        if (!compact) rv.setViewVisibility(R.id.updated, if (size.minWidthDp < 280f && snap != null && !model.refreshing) View.GONE else View.VISIBLE)
         rv.setInt(R.id.status_dot, "setColorFilter", context.getColor(if (fresh) R.color.status_ok else R.color.status_stale))
         rv.setViewVisibility(R.id.status_dot, if (snap != null && !model.refreshing) View.VISIBLE else View.GONE)
 
@@ -206,7 +208,7 @@ object WidgetRenderer {
         rv.setTextViewText(
             R.id.hilo,
             today?.let {
-                if (size.longHiLo) "Máx ${deg(it.max)}  ·  Mín ${deg(it.min)}" else "↑ ${deg(it.max)}   ↓ ${deg(it.min)}"
+                if (size.longHiLo) "Máx ${deg(it.max)}  ·  Mín ${deg(it.min)}" else "↑${deg(it.max)} ↓${deg(it.min)}"
             } ?: "",
         )
         rv.setTextViewText(R.id.feels, "Sensação ${deg(cur.apparentTemperature)}")
@@ -248,8 +250,7 @@ object WidgetRenderer {
             val uvRounded = uv?.roundToInt()
             rv.setTextViewText(R.id.m0_value, rain?.let { "$it%" } ?: "--")
             rv.setTextViewText(R.id.m1_value, cur.humidity.takeIf { it >= 0 }?.let { "$it%" } ?: "--")
-            val narrow = size.minWidthDp < 280f
-            rv.setTextViewText(R.id.m2_value, cur.windSpeedKmh.takeIf { it >= 0 }?.let { if (narrow) "${it.roundToInt()}km/h" else "${it.roundToInt()} km/h" } ?: "--")
+            rv.setTextViewText(R.id.m2_value, cur.windSpeedKmh.takeIf { it >= 0 }?.let { unitSpan("${it.roundToInt()}", if (size.minWidthDp < 280f) "km/h" else " km/h") } ?: "--")
             rv.setTextViewText(R.id.m3_value, uvRounded?.let { if (labels) "$it" else "UV $it" } ?: "--")
             METRIC_ICON_IDS.forEach { rv.setInt(it, "setImageAlpha", 200) }
             METRIC_LABEL_IDS.forEach { rv.setViewVisibility(it, if (labels) View.VISIBLE else View.GONE) }
@@ -298,7 +299,7 @@ object WidgetRenderer {
                     rv.setTextViewText(ids[0], dayName(day.date))
                     rv.setImageViewResource(ids[1], WeatherCodes.icon(day.weatherCode, true))
                     rv.setContentDescription(ids[1], WeatherCodes.label(day.weatherCode))
-                    if (size.roomy || size.minWidthDp < 280f) {
+                    if (size.minWidthDp < 280f) {
                         rv.setViewVisibility(ids[3], View.VISIBLE)
                         rv.setTextViewText(ids[2], deg(day.max))
                         rv.setTextViewText(ids[3], deg(day.min))
@@ -385,8 +386,8 @@ object WidgetRenderer {
         }
         if (size == WidgetSize.LARGE && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             DAY_IDS.forEach {
-                rv.setViewLayoutWidth(it[1], 34f, TypedValue.COMPLEX_UNIT_DIP)
-                rv.setViewLayoutHeight(it[1], 34f, TypedValue.COMPLEX_UNIT_DIP)
+                rv.setViewLayoutWidth(it[1], 30f, TypedValue.COMPLEX_UNIT_DIP)
+                rv.setViewLayoutHeight(it[1], 30f, TypedValue.COMPLEX_UNIT_DIP)
             }
         }
     }
@@ -435,11 +436,19 @@ object WidgetRenderer {
         return s
     }
 
+    /** Número em destaque e unidade menor e mais discreta ("3 km/h"). */
+    private fun unitSpan(value: String, unit: String): CharSequence {
+        val s = SpannableString(value + unit)
+        s.setSpan(RelativeSizeSpan(0.74f), value.length, s.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        s.setSpan(ForegroundColorSpan(0xE0E8F5FF.toInt()), value.length, s.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        return s
+    }
+
     private fun maxMinSpan(max: Double, min: Double): CharSequence {
         val a = deg(max)
-        val s = SpannableString("$a  ${deg(min)}")
+        val s = SpannableString("$a ${deg(min)}")
         s.setSpan(ForegroundColorSpan(0x99C9D6F2.toInt()), a.length, s.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-        s.setSpan(RelativeSizeSpan(0.9f), a.length, s.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        s.setSpan(RelativeSizeSpan(0.82f), a.length, s.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         s.setSpan(android.text.style.StyleSpan(android.graphics.Typeface.NORMAL), a.length, s.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         return s
     }

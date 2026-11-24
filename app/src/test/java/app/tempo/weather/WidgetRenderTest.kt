@@ -135,6 +135,10 @@ class WidgetRenderTest {
                 assertTrue("$label: '${v.text}' fora dos limites ($x,$y ${v.width}x${v.height} em ${rw}x$rh)",
                     x >= 0 && y >= 0 && x + v.width <= rw + 1 && y + v.height <= rh + 1)
                 assertTrue("$label: '${v.text}' com altura insuficiente", v.height >= v.lineHeight * 0.8 || v.maxLines == 0)
+                // Valores (números) nunca podem ser truncados com reticências; nomes longos de cidade podem.
+                val ell = v.layout?.let { l -> (0 until l.lineCount).any { l.getEllipsisCount(it) > 0 } } ?: false
+                val isValue = v.text.any { it.isDigit() } && v.id != app.tempo.weather.R.id.city
+                assertTrue("$label: '${v.text}' truncado com reticências", !(ell && isValue))
                 // Também não pode ser cortado pelo contêiner pai (clipChildren).
                 val parent = v.parent as? View
                 if (parent != null && parent !== root) {
@@ -154,6 +158,24 @@ class WidgetRenderTest {
                 val v = render("${sName}_$label", wh.first, wh.second, model(snap, now))
                 assertInside(v, "${sName}_$label")
             }
+        }
+    }
+
+    /**
+     * Fontes de tema (ex.: HyperOS/MIUI) e a escala de fonte de acessibilidade deixam o texto bem
+     * mais alto. Com 30% a mais, nada pode ser cortado.
+     */
+    @Test
+    fun survivesLargeThemeFonts() {
+        org.robolectric.RuntimeEnvironment.setFontScale(1.3f)
+        try {
+            val (_, snap, now) = scenarios.first()
+            for ((label, wh) in sizes) {
+                val v = render("fontscale_$label", wh.first, wh.second, model(snap, now))
+                assertInside(v, "fontscale_$label")
+            }
+        } finally {
+            org.robolectric.RuntimeEnvironment.setFontScale(1f)
         }
     }
 

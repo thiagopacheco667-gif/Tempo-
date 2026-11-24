@@ -19,7 +19,7 @@ sem textos, números, pessoas ou elementos gráficos.
 | Arquivo | Usado em | Status |
 |---|---|---|
 | `scene_clear_madrugada` | céu limpo · madrugada | ✅ |
-| `scene_clear_manha` | céu limpo · manhã | pendente |
+| `scene_clear_manha` | céu limpo · manhã | ✅ |
 | `scene_clear_tarde` | céu limpo · tarde | pendente |
 | `scene_clear_entardecer` | céu limpo · entardecer | pendente |
 | `scene_clear_noite` | céu limpo · noite | pendente |
@@ -49,6 +49,5 @@ sem textos, números, pessoas ou elementos gráficos.
 | `scene_snow_noite` | neve · madrugada e noite | pendente |
 
 As fotos marcadas com ✅ foram geradas com IA no Canva da conta do usuário e otimizadas para 1280×720 WebP.
-As de `clear_manha` e `clear_tarde` também foram geradas, mas os créditos acabaram antes de exportá-las
-em alta resolução. Elas estão na biblioteca do Canva (ids `MAHbzpf86zY` e `MAHbzj8sf4A`) e podem ser
-exportadas depois.
+A de `clear_tarde` também foi gerada, mas os créditos acabaram antes de exportá-la em alta resolução.
+Ela está na biblioteca do Canva (id `MAHbzj8sf4A`) e pode ser exportada depois.

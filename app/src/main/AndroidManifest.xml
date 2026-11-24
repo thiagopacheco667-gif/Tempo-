@@ -31,6 +31,13 @@
             </intent-filter>
         </activity>
 
+        <!-- Previsão detalhada: aberta pelo widget (seções: alertas, 24 h, 5 dias, detalhes) -->
+        <activity
+            android:name=".ui.DetailActivity"
+            android:exported="false"
+            android:launchMode="singleTop"
+            android:label="@string/detail_title" />
+
         <receiver
             android:name=".widget.WeatherWidgetProvider"
             android:exported="false"

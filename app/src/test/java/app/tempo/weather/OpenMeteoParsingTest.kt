@@ -89,6 +89,7 @@ class OpenMeteoParsingTest {
         assertEquals(WidgetSize.MEDIUM_SHORT, WidgetSize.forSize(320f, 120f))
         assertEquals(WidgetSize.MEDIUM, WidgetSize.forSize(320f, 180f))
         assertEquals(WidgetSize.MEDIUM_NARROW, WidgetSize.forSize(250f, 180f))
+        assertEquals(WidgetSize.EXPANDED, WidgetSize.forSize(320f, 300f))
         assertEquals(WidgetSize.EXPANDED_NARROW, WidgetSize.forSize(250f, 250f))
         assertEquals(WidgetSize.EXPANDED, WidgetSize.forSize(320f, 270f))
         assertEquals(WidgetSize.LARGE, WidgetSize.forSize(360f, 400f))

@@ -11,6 +11,20 @@ sealed interface RefreshResult {
     data class Failure(val message: String, val recoverable: Boolean) : RefreshResult
 }
 
+private const val ALERTS_INTERVAL_MS = 2 * 60 * 60_000L
+
+/** Descarta avisos já encerrados (o horário do INMET é o de Brasília). */
+fun WeatherAlert.isActiveOrUpcoming(now: java.time.LocalDateTime = java.time.LocalDateTime.now(java.time.ZoneId.of("America/Sao_Paulo"))): Boolean =
+    runCatching { !java.time.LocalDateTime.parse(end, java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")).isBefore(now) }
+        .getOrDefault(true)
+
+/** Aviso em vigor agora (já começou e ainda não terminou). */
+fun WeatherAlert.isActiveNow(now: java.time.LocalDateTime = java.time.LocalDateTime.now(java.time.ZoneId.of("America/Sao_Paulo"))): Boolean =
+    runCatching {
+        val f = java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+        !java.time.LocalDateTime.parse(start, f).isAfter(now) && !java.time.LocalDateTime.parse(end, f).isBefore(now)
+    }.getOrDefault(false)
+
 class WeatherRepository(private val context: Context) {
 
     private val store = WeatherStore(context)
@@ -33,7 +47,12 @@ class WeatherRepository(private val context: Context) {
         }
     }
 
-    suspend fun refresh(): RefreshResult = withContext(Dispatchers.IO) {
+    /**
+     * Previsão é obrigatória; qualidade do ar e avisos do INMET são complementares: se falharem,
+     * reaproveitam o último valor válido do mesmo local (nunca de outro lugar).
+     * [manual] força a consulta de avisos mesmo dentro do intervalo de economia.
+     */
+    suspend fun refresh(manual: Boolean = false): RefreshResult = withContext(Dispatchers.IO) {
         store.lastAttemptAt = System.currentTimeMillis()
         val place = try {
             resolvePlace()
@@ -51,7 +70,25 @@ class WeatherRepository(private val context: Context) {
             return@withContext RefreshResult.Failure(msg, recoverable = false)
         }
         try {
-            val snap = OpenMeteoClient.fetchForecast(place)
+            val previous = store.snapshot?.takeIf { it.place.sameSpot(place) }
+            val base = OpenMeteoClient.fetchForecast(place)
+            val air = runCatching { OpenMeteoClient.fetchAirQuality(place) }.getOrNull() ?: previous?.airQuality
+
+            // O feed nacional do INMET é grande (~400 KB): consulta no máximo a cada 2 h,
+            // salvo atualização manual ou troca de local.
+            val alertsDue = manual || previous == null ||
+                base.fetchedAt - previous.alertsCheckedAt > ALERTS_INTERVAL_MS
+            val (alerts, alertsAt) = if (alertsDue && InmetClient.covers(place)) {
+                runCatching { InmetClient.fetchFor(place) }.fold(
+                    onSuccess = { it to base.fetchedAt },
+                    onFailure = { (previous?.alerts.orEmpty()) to (previous?.alertsCheckedAt ?: 0L) },
+                )
+            } else if (!InmetClient.covers(place)) {
+                emptyList<WeatherAlert>() to base.fetchedAt
+            } else {
+                previous!!.alerts to previous.alertsCheckedAt
+            }
+            val snap = base.copy(airQuality = air, alerts = alerts.filter { it.isActiveOrUpcoming() }, alertsCheckedAt = alertsAt)
             store.snapshot = snap
             store.lastError = null
             RefreshResult.Success(snap)

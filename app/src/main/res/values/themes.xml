@@ -45,24 +45,24 @@
         <item name="android:fontFeatureSettings">tnum</item>
     </style>
     <style name="WText.Caption">
-        <item name="android:textSize">10.5sp</item>
+        <item name="android:textSize">11sp</item>
         <item name="android:textColor">@color/ink_quaternary</item>
         <item name="android:letterSpacing">0.03</item>
         <item name="android:fontFeatureSettings">tnum</item>
     </style>
     <style name="WText.MetricValue">
         <item name="android:fontFamily">sans-serif-medium</item>
-        <item name="android:textSize">13sp</item>
+        <item name="android:textSize">13.5sp</item>
         <item name="android:fontFeatureSettings">tnum</item>
     </style>
     <style name="WText.MetricLabel">
-        <item name="android:textSize">10sp</item>
+        <item name="android:textSize">10.5sp</item>
         <item name="android:textColor">@color/ink_tertiary</item>
         <item name="android:letterSpacing">0.02</item>
     </style>
     <style name="WText.Day">
         <item name="android:fontFamily">sans-serif-medium</item>
-        <item name="android:textSize">11.5sp</item>
+        <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/ink_tertiary</item>
         <item name="android:letterSpacing">0.04</item>
         <item name="android:gravity">center</item>
@@ -80,14 +80,48 @@
         <item name="android:fontFeatureSettings">tnum</item>
     </style>
 
-    <!-- ProgressBar usado como "palco" de AnimatedVectorDrawable (único jeito de animar em widgets) -->
-    <style name="WAmbient" parent="android:Widget.ProgressBar">
+    <style name="WText.HiLo">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">12.5sp</item>
+        <item name="android:textColor">@color/ink_secondary</item>
+        <item name="android:fontFeatureSettings">tnum</item>
+    </style>
+    <style name="WText.Chip">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:shadowRadius">0</item>
+    </style>
+    <style name="WText.Section">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">10.5sp</item>
+        <item name="android:textColor">@color/ink_tertiary</item>
+        <item name="android:letterSpacing">0.12</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+    <style name="WText.RowDay">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/ink_secondary</item>
+    </style>
+    <style name="WText.RowMax">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:gravity">end</item>
+        <item name="android:fontFeatureSettings">tnum</item>
+    </style>
+    <style name="WText.RowMin">
+        <item name="android:textSize">12.5sp</item>
+        <item name="android:textColor">@color/ink_tertiary</item>
+        <item name="android:gravity">end</item>
+        <item name="android:fontFeatureSettings">tnum</item>
+    </style>
+
+    <!-- Indicador de carregamento: AnimatedVectorDrawable num ProgressBar, visível só durante a atualização -->
+    <style name="WLoader" parent="android:Widget.ProgressBar">
         <item name="android:indeterminate">true</item>
-        <item name="android:indeterminateOnly">false</item>
+        <item name="android:indeterminateDrawable">@drawable/avd_loader</item>
         <item name="android:minWidth">0dp</item>
         <item name="android:minHeight">0dp</item>
-        <item name="android:maxWidth">2000dp</item>
-        <item name="android:maxHeight">2000dp</item>
         <item name="android:visibility">gone</item>
         <item name="android:importantForAccessibility">no</item>
     </style>

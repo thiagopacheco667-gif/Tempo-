@@ -309,16 +309,19 @@ private fun SettingsScreen(isConfiguring: Boolean, onDone: () -> Unit) {
                 }
             }
 
+            // O widget não usa mais animações contínuas (economia de bateria); o atalho abaixo
+            // leva à previsão detalhada, a mesma tela aberta ao tocar no widget.
             GlassCard {
-                ToggleRow(
-                    title = "Animações atmosféricas",
-                    subtitle = "Chuva, estrelas, névoa e brilho do sol. Desligam sozinhas no modo de economia de bateria.",
-                    checked = remember(version) { store.animationsEnabled },
-                    onChange = {
-                        store.animationsEnabled = it
-                        WeatherWidgetProvider.renderAll(context)
-                    },
-                )
+                Row(
+                    Modifier.fillMaxWidth().clickable { context.startActivity(Intent(context, DetailActivity::class.java)) },
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Column(Modifier.weight(1f)) {
+                        Text("Previsão detalhada", color = Color.White, fontSize = 15.sp, fontWeight = FontWeight.Medium)
+                        Text("24 horas, 5 dias, alertas do INMET, qualidade do ar, vento e UV", color = Ink3, fontSize = 12.5.sp, modifier = Modifier.padding(top = 2.dp))
+                    }
+                    Text("›", color = Accent, fontSize = 24.sp)
+                }
             }
 
             if (isConfiguring) {
@@ -334,7 +337,7 @@ private fun SettingsScreen(isConfiguring: Boolean, onDone: () -> Unit) {
             }
 
             Text(
-                "Dados meteorológicos: Open-Meteo.com (CC BY 4.0). Previsões são estimativas do modelo e podem variar.",
+                "Dados: Open-Meteo.com (CC BY 4.0) e avisos oficiais do INMET. Previsões são estimativas do modelo e podem variar.",
                 color = Ink3, fontSize = 11.5.sp, modifier = Modifier.padding(top = 4.dp, bottom = 8.dp),
             )
         }

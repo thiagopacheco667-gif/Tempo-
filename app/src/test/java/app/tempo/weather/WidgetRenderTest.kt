@@ -10,6 +10,7 @@ import android.graphics.Shader
 import android.view.View
 import android.widget.FrameLayout
 import androidx.test.core.app.ApplicationProvider
+import app.tempo.weather.data.InmetClient
 import app.tempo.weather.data.OpenMeteoClient
 import app.tempo.weather.data.Place
 import app.tempo.weather.data.WeatherSnapshot
@@ -58,8 +59,18 @@ class WidgetRenderTest {
         return snap to now
     }
 
+    private val platina: WeatherSnapshot by lazy {
+        val place = Place("Santo Antônio da Platina", "PR, BR", -23.2928, -50.0794)
+        val f = { n: String -> javaClass.classLoader!!.getResource("fixtures/$n")!!.readText() }
+        OpenMeteoClient.parseForecast(f("forecast_platina.json"), place, Instant.parse("2026-11-24T06:00:00Z").toEpochMilli()).copy(
+            airQuality = OpenMeteoClient.parseAirQuality(f("air_platina.json")),
+            alerts = InmetClient.parse(f("inmet_avisos.json"), place.latitude, place.longitude, java.time.LocalDateTime.parse("2026-11-24T03:00")),
+        )
+    }
+
     private val scenarios: List<Triple<String, WeatherSnapshot, Instant>> by lazy {
         listOf(
+            Triple("real_platina_alert", platina, Instant.parse("2026-11-24T06:05:00Z")),
             Triple("real_night_cloudy", base, Instant.parse("2026-11-24T04:50:00Z")),
             variant(0, "12:30", true, 29.4).let { Triple("clear_day", it.first, it.second) },
             variant(1, "18:05", true, 26.2).let { Triple("sunset", it.first, it.second) },
@@ -80,11 +91,12 @@ class WidgetRenderTest {
         "4x3" to (320 to 265),
         "5x3" to (400 to 285),
         "4x4" to (330 to 380),
+        "4x3tall" to (330 to 300),
         "3x3" to (250 to 250),
     )
 
     private fun model(snap: WeatherSnapshot?, now: Instant, refreshing: Boolean = false, error: String? = null, attempt: Long = 0) =
-        RenderModel(snap, refreshing, error, attempt, animations = true, intervalMinutes = 60, pendingPlaceName = null, now = now)
+        RenderModel(snap, refreshing, error, attempt, intervalMinutes = 60, pendingPlaceName = null, now = now)
 
     private fun render(name: String, w: Int, h: Int, model: RenderModel): View {
         val size = WidgetSize.forSize(w.toFloat(), h.toFloat())
@@ -116,13 +128,19 @@ class WidgetRenderTest {
         val rh = root.height
         fun walk(v: View) {
             if (v.visibility != View.VISIBLE) return
-            if (v is android.widget.TextView && v.text.isNotEmpty()) {
+            if (v is android.widget.TextView && v.text.isNotEmpty() && v.width > 0) {
                 val loc = IntArray(2)
                 var x = 0; var y = 0; var p: View? = v
                 while (p != null && p !== root) { x += p.left; y += p.top; p = p.parent as? View }
                 assertTrue("$label: '${v.text}' fora dos limites ($x,$y ${v.width}x${v.height} em ${rw}x$rh)",
                     x >= 0 && y >= 0 && x + v.width <= rw + 1 && y + v.height <= rh + 1)
                 assertTrue("$label: '${v.text}' com altura insuficiente", v.height >= v.lineHeight * 0.8 || v.maxLines == 0)
+                // Também não pode ser cortado pelo contêiner pai (clipChildren).
+                val parent = v.parent as? View
+                if (parent != null && parent !== root) {
+                    assertTrue("$label: '${v.text}' cortado pelo contêiner (${v.bottom} > ${parent.height})",
+                        v.bottom <= parent.height - parent.paddingBottom + 2 && v.right <= parent.width + 2)
+                }
             }
             if (v is android.view.ViewGroup) for (i in 0 until v.childCount) walk(v.getChildAt(i))
         }
@@ -153,11 +171,12 @@ class WidgetRenderTest {
 
     @Test
     fun atmosphereSelection() {
-        assertEquals(Atmosphere.NIGHT, Atmosphere.resolve(scenarios[0].second, scenarios[0].third))
-        assertEquals(Atmosphere.CLEAR_DAY, Atmosphere.resolve(scenarios[1].second, scenarios[1].third))
-        assertEquals(Atmosphere.SUNSET, Atmosphere.resolve(scenarios[2].second, scenarios[2].third))
-        assertEquals(Atmosphere.CLOUDY, Atmosphere.resolve(scenarios[3].second, scenarios[3].third))
-        assertEquals(Atmosphere.RAIN, Atmosphere.resolve(scenarios[4].second, scenarios[4].third))
-        assertEquals(Atmosphere.STORM, Atmosphere.resolve(scenarios[5].second, scenarios[5].third))
+        val byName = scenarios.associate { it.first to Atmosphere.resolve(it.second, it.third) }
+        assertEquals(Atmosphere.NIGHT, byName["real_night_cloudy"])
+        assertEquals(Atmosphere.CLEAR_DAY, byName["clear_day"])
+        assertEquals(Atmosphere.SUNSET, byName["sunset"])
+        assertEquals(Atmosphere.CLOUDY, byName["cloudy"])
+        assertEquals(Atmosphere.RAIN, byName["rain"])
+        assertEquals(Atmosphere.STORM, byName["storm"])
     }
 }

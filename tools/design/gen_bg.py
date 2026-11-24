@@ -55,30 +55,6 @@ bg('sunset', ('#FF142A60', '#FF2B2C66', '#FF4E3159'),
    (0.95, 1.0, 115, '#D9FF8A4C', '#46FF6A3D', '#00FF6A3D'),
    (0.0, 0.0, 85, '#384A7BE0', '#0E4A7BE0', '#004A7BE0'), 'pôr do sol — azul que se dissolve em laranja')
 
-glass = HDR + '''<!-- Painel de vidro: preenchimento translúcido, brilho superior e contorno fino -->
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item>
-        <shape android:shape="rectangle">
-            <corners android:radius="@dimen/widget_inner_radius" />
-            <solid android:color="@color/glass_fill" />
-        </shape>
-    </item>
-    <item>
-        <shape android:shape="rectangle">
-            <corners android:radius="@dimen/widget_inner_radius" />
-            <gradient android:angle="270" android:startColor="#1AFFFFFF" android:endColor="#00FFFFFF" />
-        </shape>
-    </item>
-    <item>
-        <shape android:shape="rectangle">
-            <corners android:radius="@dimen/widget_inner_radius" />
-            <stroke android:width="1dp" android:color="@color/glass_edge" />
-        </shape>
-    </item>
-</layer-list>
-'''
-open(os.path.join(D, 'glass_panel.xml'), 'w').write(glass)
-
 btn = HDR + '''<!-- Botão circular de vidro (atualizar) -->
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:width="30dp" android:height="30dp" android:gravity="center">

@@ -11,6 +11,4 @@
     <color name="status_ok">#FF7CE0B0</color>
     <color name="status_stale">#FFFFC15E</color>
 
-    <color name="glass_fill">#14FFFFFF</color>
-    <color name="glass_edge">#24FFFFFF</color>
 </resources>

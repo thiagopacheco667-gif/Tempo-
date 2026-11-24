@@ -9,4 +9,7 @@
     <string name="cd_humidity">Umidade</string>
     <string name="cd_wind">Vento</string>
     <string name="cd_uv">Índice UV</string>
+    <string name="cd_alert">Alerta meteorológico do INMET ativo</string>
+    <string name="next_days">Próximos 5 dias</string>
+    <string name="detail_title">Previsão detalhada</string>
 </resources>

@@ -16,6 +16,8 @@ import app.tempo.weather.data.WeatherStore
 import app.tempo.weather.widget.WeatherWidgetProvider
 import java.util.concurrent.TimeUnit
 
+const val KEY_MANUAL = "manual"
+
 class WeatherUpdateWorker(context: Context, params: WorkerParameters) : CoroutineWorker(context, params) {
 
     override suspend fun doWork(): Result {
@@ -23,7 +25,7 @@ class WeatherUpdateWorker(context: Context, params: WorkerParameters) : Coroutin
         store.refreshingSince = System.currentTimeMillis()
         WeatherWidgetProvider.renderAll(applicationContext)
         val result = try {
-            WeatherRepository(applicationContext).refresh()
+            WeatherRepository(applicationContext).refresh(manual = inputData.getBoolean(KEY_MANUAL, false))
         } finally {
             store.refreshingSince = 0L
         }
@@ -57,7 +59,9 @@ object UpdateScheduler {
 
     /** Atualização manual imediata. Sem restrição de rede para que a falha seja exibida na hora. */
     fun refreshNow(context: Context) {
-        val req = OneTimeWorkRequestBuilder<WeatherUpdateWorker>().build()
+        val req = OneTimeWorkRequestBuilder<WeatherUpdateWorker>()
+            .setInputData(androidx.work.workDataOf(KEY_MANUAL to true))
+            .build()
         WorkManager.getInstance(context).enqueueUniqueWork(NOW, ExistingWorkPolicy.REPLACE, req)
     }
 

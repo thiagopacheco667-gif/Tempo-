@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Versão média: clima atual + indicadores -->
+<!-- Média: clima atual + resumo de 3 dias + indicadores -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@android:id/background"
     android:layout_width="match_parent"
@@ -13,120 +13,163 @@
         android:scaleType="fitXY" android:importantForAccessibility="no" android:src="@drawable/bg_night" />
     <ImageView android:id="@+id/bg_b" android:layout_width="match_parent" android:layout_height="match_parent"
         android:scaleType="fitXY" android:importantForAccessibility="no" android:visibility="invisible" />
-
-    <!-- Camadas ambientes animadas (apenas uma visível por vez; todas GONE com animações desligadas) -->
-    <ProgressBar android:id="@+id/amb_rain" style="@style/WAmbient" android:layout_width="match_parent"
-        android:layout_height="match_parent" android:indeterminateDrawable="@drawable/amb_rain" />
-    <ProgressBar android:id="@+id/amb_storm" style="@style/WAmbient" android:layout_width="match_parent"
-        android:layout_height="match_parent" android:indeterminateDrawable="@drawable/amb_storm" />
-    <ProgressBar android:id="@+id/amb_stars" style="@style/WAmbient" android:layout_width="match_parent"
-        android:layout_height="match_parent" android:indeterminateDrawable="@drawable/amb_stars" />
-    <ProgressBar android:id="@+id/amb_mist" style="@style/WAmbient" android:layout_width="match_parent"
-        android:layout_height="match_parent" android:indeterminateDrawable="@drawable/amb_mist" />
+    <!-- Detalhe atmosférico estático (estrelas, chuva, névoa, luz) -->
+    <ImageView android:id="@+id/deco" android:layout_width="match_parent" android:layout_height="match_parent"
+        android:scaleType="fitXY" android:importantForAccessibility="no" />
 
     <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
-        android:orientation="vertical" android:paddingStart="16dp" android:paddingEnd="16dp"
-        android:paddingTop="12dp" android:paddingBottom="14dp">
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="vertical" android:paddingStart="16dp" android:paddingEnd="14dp"
+        android:paddingTop="8dp" android:paddingBottom="10dp">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="28dp"
             android:gravity="center_vertical" android:orientation="horizontal">
-            <ImageView android:layout_width="13dp" android:layout_height="13dp" android:layout_marginEnd="5dp"
-                android:alpha="0.9" android:src="@drawable/gl_pin" android:importantForAccessibility="no" />
             <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
                 android:gravity="center_vertical" android:orientation="horizontal">
+                <ImageView android:layout_width="13dp" android:layout_height="13dp" android:layout_marginEnd="5dp"
+                    android:alpha="0.9" android:src="@drawable/gl_pin" android:importantForAccessibility="no" />
                 <TextView android:id="@+id/city" style="@style/WText.City" android:layout_width="wrap_content"
                     android:layout_height="wrap_content" android:text="@string/app_name" />
-                <TextView android:id="@+id/region" style="@style/WText.Region" android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:layout_marginStart="6dp" android:layout_marginEnd="8dp" />
+                <TextView android:id="@+id/region" style="@style/WText.Region" android:layout_width="0dp"
+                    android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="6dp"
+                    android:layout_marginEnd="6dp" />
             </LinearLayout>
-            <ImageView android:id="@+id/status_dot" android:layout_width="6dp" android:layout_height="6dp"
-                android:layout_marginEnd="6dp" android:src="@drawable/status_dot" android:importantForAccessibility="no" />
+            <LinearLayout android:id="@+id/alert_chip" android:layout_width="wrap_content" android:layout_height="22dp"
+                    android:layout_marginStart="4dp" android:layout_marginEnd="8dp" android:background="@drawable/chip"
+                    android:gravity="center_vertical" android:orientation="horizontal" android:paddingStart="7dp"
+                    android:paddingEnd="9dp" android:visibility="gone">
+                    <ImageView android:id="@+id/alert_icon" android:layout_width="11dp" android:layout_height="11dp"
+                        android:layout_marginEnd="5dp" android:src="@drawable/gl_alert" android:importantForAccessibility="no" />
+                    <TextView android:id="@+id/alert_text" style="@style/WText.Chip" android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+            <ImageView android:id="@+id/status_dot" android:layout_width="5dp" android:layout_height="5dp"
+                android:layout_marginEnd="5dp" android:src="@drawable/status_dot" android:importantForAccessibility="no" />
             <TextView android:id="@+id/updated" style="@style/WText.Caption" android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:layout_marginEnd="6dp" />
-            <FrameLayout android:layout_width="30dp" android:layout_height="30dp"
-                android:animateLayoutChanges="true">
+                android:layout_height="wrap_content" android:layout_marginEnd="8dp" />
+            <FrameLayout android:layout_width="30dp" android:layout_height="30dp" android:animateLayoutChanges="true">
                 <ImageView android:id="@+id/refresh" android:layout_width="match_parent" android:layout_height="match_parent"
                     android:background="@drawable/glass_button" android:padding="8dp" android:src="@drawable/gl_refresh"
-                    android:alpha="0.85" android:contentDescription="@string/cd_refresh" />
-                <ProgressBar android:id="@+id/loading" style="@style/WAmbient" android:layout_width="18dp"
-                    android:layout_height="18dp" android:layout_gravity="center" android:indeterminateDrawable="@drawable/avd_loader" />
+                    android:alpha="0.9" android:contentDescription="@string/cd_refresh" />
+                <ProgressBar android:id="@+id/loading" style="@style/WLoader" android:layout_width="16dp"
+                    android:layout_height="16dp" android:layout_gravity="center" />
             </FrameLayout>
         </LinearLayout>
         <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1"
             android:gravity="center_vertical" android:orientation="horizontal">
-            <FrameLayout android:id="@+id/temp_box" android:layout_width="wrap_content" android:layout_height="wrap_content"
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                android:orientation="vertical">
+                <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:gravity="center_vertical" android:orientation="horizontal">
+                    <FrameLayout android:id="@+id/temp_box" android:layout_width="wrap_content" android:layout_height="wrap_content"
                 android:animateLayoutChanges="true" android:layout_marginStart="-2dp">
                 <TextView android:id="@+id/temp_a" style="@style/WText.Temp" android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:textSize="52sp" android:text="—°" />
+                    android:layout_height="wrap_content" android:textSize="48sp" />
                 <TextView android:id="@+id/temp_b" style="@style/WText.Temp" android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:textSize="52sp" android:visibility="invisible" />
+                    android:layout_height="wrap_content" android:textSize="48sp" android:visibility="invisible" />
             </FrameLayout>
-            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
-                android:layout_marginStart="10dp" android:orientation="vertical">
+                    <FrameLayout android:id="@+id/icon_box" android:layout_width="36dp" android:layout_height="36dp"
+                android:animateLayoutChanges="true" android:layout_marginStart="6dp">
+                <ImageView android:id="@+id/icon_a" android:layout_width="match_parent" android:layout_height="match_parent"
+                    android:contentDescription="@string/cd_condition_icon" android:src="@drawable/wx_cloudy" />
+                <ImageView android:id="@+id/icon_b" android:layout_width="match_parent" android:layout_height="match_parent"
+                    android:contentDescription="@string/cd_condition_icon" android:visibility="invisible" />
+            </FrameLayout>
+                </LinearLayout>
                 <TextView android:id="@+id/condition" style="@style/WText.Condition" android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:textSize="13.5sp" />
-                <TextView android:id="@+id/hilo" style="@style/WText.Detail" android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:layout_marginTop="4dp" />
-                <TextView android:id="@+id/feels" style="@style/WText.Detail" android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:layout_marginTop="3dp" />
+                    android:layout_height="wrap_content" android:textSize="13sp" />
+                <TextView android:id="@+id/hilo" style="@style/WText.HiLo" android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:layout_marginTop="2dp" />
             </LinearLayout>
-            <FrameLayout android:id="@+id/icon_box" android:layout_width="72dp" android:layout_height="72dp" android:layout_marginEnd="-8dp"
-                android:animateLayoutChanges="true">
-                <ProgressBar android:id="@+id/amb_glow_sun" style="@style/WAmbient" android:layout_width="match_parent"
-                    android:layout_height="match_parent" android:indeterminateDrawable="@drawable/amb_glow_sun" />
-                <ProgressBar android:id="@+id/amb_glow_sunset" style="@style/WAmbient" android:layout_width="match_parent"
-                    android:layout_height="match_parent" android:indeterminateDrawable="@drawable/amb_glow_sunset" />
-                <ProgressBar android:id="@+id/amb_glow_moon" style="@style/WAmbient" android:layout_width="match_parent"
-                    android:layout_height="match_parent" android:indeterminateDrawable="@drawable/amb_glow_moon" />
-                <ImageView android:id="@+id/icon_a" android:layout_width="58dp" android:layout_height="58dp"
-                    android:layout_gravity="center" android:contentDescription="@string/cd_condition_icon"
-                    android:src="@drawable/wx_cloudy" />
-                <ImageView android:id="@+id/icon_b" android:layout_width="58dp" android:layout_height="58dp"
-                    android:layout_gravity="center" android:contentDescription="@string/cd_condition_icon"
-                    android:visibility="invisible" />
-            </FrameLayout>
+            <ImageView android:id="@+id/divider" android:layout_width="1dp" android:layout_height="58dp"
+                android:layout_marginStart="10dp" android:layout_marginEnd="12dp" android:src="@drawable/hairline_v"
+                android:scaleType="fitXY" android:importantForAccessibility="no" />
+            <LinearLayout android:id="@+id/mini_forecast" android:layout_width="0dp" android:layout_height="66dp"
+                android:layout_weight="1" android:orientation="vertical">
+                <LinearLayout android:id="@+id/r0" android:layout_width="match_parent" android:layout_height="0dp"
+                    android:layout_weight="1" android:gravity="center_vertical" android:orientation="horizontal">
+                    <TextView android:id="@+id/r0_name" style="@style/WText.RowDay" android:layout_width="31dp"
+                        android:layout_height="wrap_content" />
+                    <ImageView android:id="@+id/r0_icon" android:layout_width="18dp" android:layout_height="18dp"
+                        android:importantForAccessibility="no" />
+                    <TextView android:id="@+id/r0_max" style="@style/WText.RowMax" android:layout_width="0dp"
+                        android:layout_height="wrap_content" android:layout_weight="1" />
+                    <TextView android:id="@+id/r0_min" style="@style/WText.RowMin" android:layout_width="29dp"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+                <LinearLayout android:id="@+id/r1" android:layout_width="match_parent" android:layout_height="0dp"
+                    android:layout_weight="1" android:gravity="center_vertical" android:orientation="horizontal">
+                    <TextView android:id="@+id/r1_name" style="@style/WText.RowDay" android:layout_width="31dp"
+                        android:layout_height="wrap_content" />
+                    <ImageView android:id="@+id/r1_icon" android:layout_width="18dp" android:layout_height="18dp"
+                        android:importantForAccessibility="no" />
+                    <TextView android:id="@+id/r1_max" style="@style/WText.RowMax" android:layout_width="0dp"
+                        android:layout_height="wrap_content" android:layout_weight="1" />
+                    <TextView android:id="@+id/r1_min" style="@style/WText.RowMin" android:layout_width="29dp"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+                <LinearLayout android:id="@+id/r2" android:layout_width="match_parent" android:layout_height="0dp"
+                    android:layout_weight="1" android:gravity="center_vertical" android:orientation="horizontal">
+                    <TextView android:id="@+id/r2_name" style="@style/WText.RowDay" android:layout_width="31dp"
+                        android:layout_height="wrap_content" />
+                    <ImageView android:id="@+id/r2_icon" android:layout_width="18dp" android:layout_height="18dp"
+                        android:importantForAccessibility="no" />
+                    <TextView android:id="@+id/r2_max" style="@style/WText.RowMax" android:layout_width="0dp"
+                        android:layout_height="wrap_content" android:layout_weight="1" />
+                    <TextView android:id="@+id/r2_min" style="@style/WText.RowMin" android:layout_width="29dp"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
         <LinearLayout android:id="@+id/metrics" android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:minHeight="32dp" android:layout_marginTop="6dp" android:background="@drawable/glass_panel"
-            android:orientation="horizontal" android:paddingStart="4dp" android:paddingEnd="4dp"
-            android:paddingTop="8dp" android:paddingBottom="8dp">
-                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
-                    android:gravity="center" android:orientation="vertical" android:contentDescription="@string/cd_rain">
+            android:layout_marginTop="4dp" android:background="@drawable/glass_soft" android:gravity="center_vertical"
+            android:orientation="horizontal" android:paddingTop="6dp" android:paddingBottom="6dp">
+                <LinearLayout android:id="@+id/m0" android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_weight="1" android:gravity="center" android:orientation="vertical"
+                    android:contentDescription="@string/cd_rain">
                     <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
                         android:gravity="center_vertical" android:orientation="horizontal">
-                        <ImageView android:layout_width="12dp" android:layout_height="12dp" android:layout_marginEnd="4dp"
-                            android:alpha="0.75" android:src="@drawable/gl_rain" android:importantForAccessibility="no" />
+                        <ImageView android:id="@+id/m0_icon" android:layout_width="13dp" android:layout_height="13dp"
+                            android:layout_marginEnd="5dp" android:src="@drawable/gl_rain" android:importantForAccessibility="no" />
                         <TextView android:id="@+id/m0_value" style="@style/WText.MetricValue" android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" android:text="--" />
+                            android:layout_height="wrap_content" />
                     </LinearLayout>
                 </LinearLayout>
-                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
-                    android:gravity="center" android:orientation="vertical" android:contentDescription="@string/cd_humidity">
+<ImageView android:layout_width="1dp" android:layout_height="22dp" android:layout_gravity="center_vertical"
+                    android:src="@drawable/hairline_v" android:scaleType="fitXY" android:importantForAccessibility="no" />
+                <LinearLayout android:id="@+id/m1" android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_weight="1" android:gravity="center" android:orientation="vertical"
+                    android:contentDescription="@string/cd_humidity">
                     <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
                         android:gravity="center_vertical" android:orientation="horizontal">
-                        <ImageView android:layout_width="12dp" android:layout_height="12dp" android:layout_marginEnd="4dp"
-                            android:alpha="0.75" android:src="@drawable/gl_humidity" android:importantForAccessibility="no" />
+                        <ImageView android:id="@+id/m1_icon" android:layout_width="13dp" android:layout_height="13dp"
+                            android:layout_marginEnd="5dp" android:src="@drawable/gl_humidity" android:importantForAccessibility="no" />
                         <TextView android:id="@+id/m1_value" style="@style/WText.MetricValue" android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" android:text="--" />
+                            android:layout_height="wrap_content" />
                     </LinearLayout>
                 </LinearLayout>
-                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
-                    android:gravity="center" android:orientation="vertical" android:contentDescription="@string/cd_wind">
+<ImageView android:layout_width="1dp" android:layout_height="22dp" android:layout_gravity="center_vertical"
+                    android:src="@drawable/hairline_v" android:scaleType="fitXY" android:importantForAccessibility="no" />
+                <LinearLayout android:id="@+id/m2" android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_weight="1" android:gravity="center" android:orientation="vertical"
+                    android:contentDescription="@string/cd_wind">
                     <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
                         android:gravity="center_vertical" android:orientation="horizontal">
-                        <ImageView android:layout_width="12dp" android:layout_height="12dp" android:layout_marginEnd="4dp"
-                            android:alpha="0.75" android:src="@drawable/gl_wind" android:importantForAccessibility="no" />
+                        <ImageView android:id="@+id/m2_icon" android:layout_width="13dp" android:layout_height="13dp"
+                            android:layout_marginEnd="5dp" android:src="@drawable/gl_wind" android:importantForAccessibility="no" />
                         <TextView android:id="@+id/m2_value" style="@style/WText.MetricValue" android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" android:text="--" />
+                            android:layout_height="wrap_content" />
                     </LinearLayout>
                 </LinearLayout>
-                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
-                    android:gravity="center" android:orientation="vertical" android:contentDescription="@string/cd_uv">
+<ImageView android:layout_width="1dp" android:layout_height="22dp" android:layout_gravity="center_vertical"
+                    android:src="@drawable/hairline_v" android:scaleType="fitXY" android:importantForAccessibility="no" />
+                <LinearLayout android:id="@+id/m3" android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_weight="1" android:gravity="center" android:orientation="vertical"
+                    android:contentDescription="@string/cd_uv">
                     <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
                         android:gravity="center_vertical" android:orientation="horizontal">
-                        <ImageView android:layout_width="12dp" android:layout_height="12dp" android:layout_marginEnd="4dp"
-                            android:alpha="0.75" android:src="@drawable/gl_uv" android:importantForAccessibility="no" />
+                        <ImageView android:id="@+id/m3_icon" android:layout_width="13dp" android:layout_height="13dp"
+                            android:layout_marginEnd="5dp" android:src="@drawable/gl_uv" android:importantForAccessibility="no" />
                         <TextView android:id="@+id/m3_value" style="@style/WText.MetricValue" android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" android:text="--" />
+                            android:layout_height="wrap_content" />
                     </LinearLayout>
                 </LinearLayout>
         </LinearLayout>

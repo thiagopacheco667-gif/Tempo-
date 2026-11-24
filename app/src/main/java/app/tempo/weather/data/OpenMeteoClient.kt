@@ -36,8 +36,14 @@ object OpenMeteoClient {
 
     private val CURRENT_VARS = listOf(
         "temperature_2m", "apparent_temperature", "relative_humidity_2m", "weather_code",
-        "wind_speed_10m", "is_day", "precipitation_probability", "uv_index",
+        "wind_speed_10m", "wind_direction_10m", "is_day", "precipitation_probability", "uv_index",
     ).joinToString(",")
+
+    private val HOURLY_VARS = listOf(
+        "temperature_2m", "weather_code", "is_day", "precipitation_probability", "wind_speed_10m",
+    ).joinToString(",")
+
+    private const val AIR = "https://air-quality-api.open-meteo.com/v1/air-quality"
 
     private val DAILY_VARS = listOf(
         "weather_code", "temperature_2m_max", "temperature_2m_min",
@@ -46,13 +52,26 @@ object OpenMeteoClient {
 
     fun buildForecastUrl(lat: Double, lon: Double): String =
         "$FORECAST?latitude=${fmt(lat)}&longitude=${fmt(lon)}" +
-            "&current=$CURRENT_VARS&daily=$DAILY_VARS" +
+            "&current=$CURRENT_VARS&daily=$DAILY_VARS&hourly=$HOURLY_VARS" +
             "&temperature_unit=celsius&wind_speed_unit=kmh" +
-            "&timezone=auto&forecast_days=6"
+            "&timezone=auto&forecast_days=6&forecast_hours=24"
 
     fun fetchForecast(place: Place, now: Long = System.currentTimeMillis()): WeatherSnapshot {
         val body = get(buildForecastUrl(place.latitude, place.longitude))
         return parseForecast(body, place, now)
+    }
+
+    /** Qualidade do ar atual (índice US AQI). Opcional: falhas não impedem a previsão. */
+    fun fetchAirQuality(place: Place): AirQuality? {
+        val url = "$AIR?latitude=${fmt(place.latitude)}&longitude=${fmt(place.longitude)}" +
+            "&current=us_aqi,pm2_5,pm10&timezone=auto"
+        return parseAirQuality(get(url))
+    }
+
+    fun parseAirQuality(body: String): AirQuality? {
+        val c = runCatching { JSONObject(body).optJSONObject("current") }.getOrNull() ?: return null
+        val aqi = c.intOrNull("us_aqi") ?: return null
+        return AirQuality(aqi, c.doubleOrNull("pm2_5"), c.doubleOrNull("pm10"), c.optString("time"))
     }
 
     fun searchCity(query: String, language: String = Locale.getDefault().language): List<CityResult> {
@@ -88,7 +107,27 @@ object OpenMeteoClient {
             precipitationProbability = c.intOrNull("precipitation_probability"),
             uvIndex = c.doubleOrNull("uv_index"),
             time = c.optString("time"),
+            windDirection = c.intOrNull("wind_direction_10m"),
         )
+
+        val hourly = root.optJSONObject("hourly")?.let { h ->
+            val times = h.optJSONArray("time") ?: JSONArray()
+            val temps = h.optJSONArray("temperature_2m")
+            val hcodes = h.optJSONArray("weather_code")
+            val days = h.optJSONArray("is_day")
+            val hpp = h.optJSONArray("precipitation_probability")
+            val wind = h.optJSONArray("wind_speed_10m")
+            (0 until times.length()).mapNotNull { i ->
+                HourlyForecast(
+                    time = times.getString(i),
+                    temperature = temps.doubleAt(i) ?: return@mapNotNull null,
+                    weatherCode = hcodes.intAt(i) ?: return@mapNotNull null,
+                    isDay = (days.intAt(i) ?: 1) == 1,
+                    precipitationProbability = hpp.intAt(i),
+                    windSpeedKmh = wind.doubleAt(i),
+                )
+            }
+        }.orEmpty()
 
         val d = root.optJSONObject("daily") ?: throw WeatherApiException("Resposta sem previsão diária")
         val dates = d.optJSONArray("time") ?: JSONArray()
@@ -124,6 +163,7 @@ object OpenMeteoClient {
             timezone = root.optString("timezone", "UTC"),
             utcOffsetSeconds = root.optInt("utc_offset_seconds", 0),
             fetchedAt = fetchedAt,
+            hourly = hourly,
         )
     }
 
@@ -149,7 +189,7 @@ object OpenMeteoClient {
 
     // --- HTTP ------------------------------------------------------------------------------
 
-    private fun get(url: String): String {
+    internal fun get(url: String, userAgent: String = "TempoWidget/1.0 (Android)"): String {
         val conn = try {
             URL(url).openConnection() as HttpURLConnection
         } catch (e: Exception) {
@@ -157,10 +197,10 @@ object OpenMeteoClient {
         }
         try {
             conn.connectTimeout = 10_000
-            conn.readTimeout = 15_000
+            conn.readTimeout = 20_000
             conn.requestMethod = "GET"
             conn.setRequestProperty("Accept", "application/json")
-            conn.setRequestProperty("User-Agent", "TempoWidget/1.0 (Android)")
+            conn.setRequestProperty("User-Agent", userAgent)
             val status = conn.responseCode
             val stream = if (status in 200..299) conn.inputStream else conn.errorStream
             val text = stream?.bufferedReader(Charsets.UTF_8)?.use { it.readText() }.orEmpty()

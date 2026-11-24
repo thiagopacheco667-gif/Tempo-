@@ -1,7 +1,6 @@
 package app.tempo.weather.widget
 
 import androidx.annotation.DrawableRes
-import androidx.annotation.IdRes
 import app.tempo.weather.R
 import app.tempo.weather.data.Condition
 import app.tempo.weather.data.WeatherCodes
@@ -13,25 +12,25 @@ import java.time.temporal.ChronoUnit
 
 /**
  * Cada atmosfera mantém o DNA azul-marinho da identidade e muda apenas luz, temperatura de cor
- * e o elemento ambiente animado.
+ * e a camada estática de detalhe (estrelas, chuva, névoa, luz).
  */
 enum class Atmosphere(
     @DrawableRes val background: Int,
-    @IdRes val ambient: Int?,
-    @IdRes val glow: Int?,
+    /** Camada estática de detalhe (sem animação contínua). */
+    @DrawableRes val deco: Int,
     /** Cor do símbolo de grau, um pequeno acento de luz que acompanha o clima. */
     val accent: Int,
+    /** Gradiente da tela detalhada (topo → base), coerente com o widget. */
+    val screen: IntArray,
 ) {
-    CLEAR_DAY(R.drawable.bg_clear_day, null, R.id.amb_glow_sun, 0xFFFFD08A.toInt()),
-    CLOUDY(R.drawable.bg_cloudy, R.id.amb_mist, null, 0xFFC9D6EE.toInt()),
-    RAIN(R.drawable.bg_rain, R.id.amb_rain, null, 0xFF9CCBFF.toInt()),
-    STORM(R.drawable.bg_storm, R.id.amb_storm, null, 0xFFB8AEFF.toInt()),
-    NIGHT(R.drawable.bg_night, R.id.amb_stars, R.id.amb_glow_moon, 0xFFA9C2FF.toInt()),
-    SUNSET(R.drawable.bg_sunset, null, R.id.amb_glow_sunset, 0xFFFFB07A.toInt());
+    CLEAR_DAY(R.drawable.bg_clear_day, R.drawable.deco_sun, 0xFFFFD08A.toInt(), intArrayOf(0xFF12306E.toInt(), 0xFF0B2154.toInt(), 0xFF07132F.toInt())),
+    CLOUDY(R.drawable.bg_cloudy, R.drawable.deco_mist, 0xFFC9D6EE.toInt(), intArrayOf(0xFF2E3E5C.toInt(), 0xFF1F2C47.toInt(), 0xFF121B2F.toInt())),
+    RAIN(R.drawable.bg_rain, R.drawable.deco_rain, 0xFF9CCBFF.toInt(), intArrayOf(0xFF11284D.toInt(), 0xFF0A1A37.toInt(), 0xFF050E21.toInt())),
+    STORM(R.drawable.bg_storm, R.drawable.deco_storm, 0xFFB8AEFF.toInt(), intArrayOf(0xFF161C38.toInt(), 0xFF0B0F23.toInt(), 0xFF04060E.toInt())),
+    NIGHT(R.drawable.bg_night, R.drawable.deco_stars, 0xFFA9C2FF.toInt(), intArrayOf(0xFF0B1433.toInt(), 0xFF060C21.toInt(), 0xFF02040D.toInt())),
+    SUNSET(R.drawable.bg_sunset, R.drawable.deco_sun, 0xFFFFB07A.toInt(), intArrayOf(0xFF142A60.toInt(), 0xFF2B2C66.toInt(), 0xFF4E3159.toInt()));
 
     companion object {
-        val AMBIENT_IDS = intArrayOf(R.id.amb_rain, R.id.amb_storm, R.id.amb_stars, R.id.amb_mist)
-        val GLOW_IDS = intArrayOf(R.id.amb_glow_sun, R.id.amb_glow_sunset, R.id.amb_glow_moon)
 
         fun resolve(snapshot: WeatherSnapshot, now: Instant = Instant.now()): Atmosphere {
             val condition = WeatherCodes.condition(snapshot.current.weatherCode)

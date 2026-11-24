@@ -24,7 +24,7 @@ class LegacyRenderTest {
         val ctx = ApplicationProvider.getApplicationContext<android.content.Context>()
         val body = javaClass.classLoader!!.getResource("fixtures/forecast_sao_paulo.json")!!.readText()
         val snap = OpenMeteoClient.parseForecast(body, Place("São Paulo", "SP, BR", 0.0, 0.0), 0L)
-        val model = RenderModel(snap, false, null, 0, true, 60, null, Instant.parse("2026-11-24T04:50:00Z"))
+        val model = RenderModel(snap, false, null, 0, 60, null, Instant.parse("2026-11-24T04:50:00Z"))
         WidgetSize.entries.forEach { size ->
             val v = WidgetRenderer.buildSingle(ctx, size, model).apply(ctx, FrameLayout(ctx))
             v.measure(View.MeasureSpec.makeMeasureSpec(900, View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(800, View.MeasureSpec.EXACTLY))

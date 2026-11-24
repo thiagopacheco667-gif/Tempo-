@@ -3,18 +3,19 @@
 <animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:aapt="http://schemas.android.com/aapt">
     <aapt:attr name="android:drawable">
-        <vector android:width="48dp" android:height="48dp"
-            android:viewportWidth="48" android:viewportHeight="48">
+        <vector android:width="48dp" android:height="48dp" android:viewportWidth="48" android:viewportHeight="48">
             <group android:name="rot" android:pivotX="24" android:pivotY="24">
                 <path android:pathData="M7,24 A17,17 0 1 1 41,24 A17,17 0 1 1 7,24 Z" android:strokeColor="#26FFFFFF" android:strokeWidth="2.6" />
-                <path android:name="arc" android:pathData="M24,7 A17,17 0 1 1 23.99,7" android:strokeColor="#FFFFFFFF" android:strokeWidth="2.6"
+                <path android:pathData="M24,7 A17,17 0 1 1 23.99,7" android:strokeColor="#FFFFFFFF" android:strokeWidth="2.6"
                     android:strokeLineCap="round" android:trimPathStart="0" android:trimPathEnd="0.3" />
             </group>
         </vector>
     </aapt:attr>
     <target android:name="rot">
         <aapt:attr name="android:animation">
-            <objectAnimator android:propertyName="rotation" android:valueFrom="0" android:valueTo="360" android:valueType="floatType" android:duration="1100" android:startOffset="0" android:repeatCount="infinite" android:interpolator="@android:interpolator/linear" />
+            <objectAnimator android:propertyName="rotation" android:valueFrom="0" android:valueTo="360"
+                android:valueType="floatType" android:duration="1100" android:repeatCount="infinite"
+                android:interpolator="@android:interpolator/linear" />
         </aapt:attr>
     </target>
 </animated-vector>

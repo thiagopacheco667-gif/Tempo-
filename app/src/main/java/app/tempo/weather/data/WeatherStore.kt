@@ -36,10 +36,6 @@ class WeatherStore(context: Context) {
         get() = prefs.getInt(K_INTERVAL, 60)
         set(value) = prefs.edit { putInt(K_INTERVAL, value) }
 
-    var animationsEnabled: Boolean
-        get() = prefs.getBoolean(K_ANIM, true)
-        set(value) = prefs.edit { putBoolean(K_ANIM, value) }
-
     // --- Dados ------------------------------------------------------------------------------
 
     /** Último conjunto de dados VÁLIDO vindo da API. Nunca é sobrescrito por uma falha. */
@@ -104,7 +100,6 @@ class WeatherStore(context: Context) {
         private const val K_MANUAL_PLACE = "manual_place"
         private const val K_AUTO_PLACE = "auto_place"
         private const val K_INTERVAL = "interval_min"
-        private const val K_ANIM = "animations"
         private const val K_SNAPSHOT = "snapshot"
         private const val K_ERROR = "last_error"
         private const val K_ATTEMPT = "last_attempt"

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Nublado: névoa luminosa difusa -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="200dp" android:height="200dp"
+    android:viewportWidth="200" android:viewportHeight="200">
+    <path android:pathData="M-30,70 A90,40 0 1 1 150,70 A90,40 0 1 1 -30,70 Z" android:fillAlpha="0.08">
+        <aapt:attr name="android:fillColor">
+            <gradient android:type="radial" android:centerX="60" android:centerY="70" android:gradientRadius="90">
+                <item android:offset="0" android:color="#FFE8EEF8" />
+                <item android:offset="1" android:color="#00E8EEF8" />
+            </gradient>
+        </aapt:attr>
+    </path>
+    <path android:pathData="M50,150 A100,45 0 1 1 250,150 A100,45 0 1 1 50,150 Z" android:fillAlpha="0.06">
+        <aapt:attr name="android:fillColor">
+            <gradient android:type="radial" android:centerX="150" android:centerY="150" android:gradientRadius="100">
+                <item android:offset="0" android:color="#FFE8EEF8" />
+                <item android:offset="1" android:color="#00E8EEF8" />
+            </gradient>
+        </aapt:attr>
+    </path>
+    <path android:pathData="M100,40 A70,30 0 1 1 240,40 A70,30 0 1 1 100,40 Z" android:fillAlpha="0.05">
+        <aapt:attr name="android:fillColor">
+            <gradient android:type="radial" android:centerX="170" android:centerY="40" android:gradientRadius="70">
+                <item android:offset="0" android:color="#FFE8EEF8" />
+                <item android:offset="1" android:color="#00E8EEF8" />
+            </gradient>
+        </aapt:attr>
+    </path>
+</vector>

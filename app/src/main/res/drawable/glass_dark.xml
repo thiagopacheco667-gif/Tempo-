@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Vidro escuro para painéis sobre fotografia: separa os dados do fundo sem bordas pesadas -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="@dimen/widget_inner_radius" />
+            <solid android:color="#59040917" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="@dimen/widget_inner_radius" />
+            <gradient android:angle="270" android:startColor="#14FFFFFF" android:endColor="#05FFFFFF" />
+        </shape>
+    </item>
+</layer-list>

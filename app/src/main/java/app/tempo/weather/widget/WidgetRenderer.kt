@@ -148,13 +148,19 @@ object WidgetRenderer {
         val expandedFamily = size.layout == R.layout.widget_expanded
         val mediumFamily = size.layout == R.layout.widget_medium
 
-        // --- Atmosfera: crossfade entre duas camadas + detalhe estático (sem animação contínua) ---
+        // --- Cenário: fotografia (período × condição) ou degradê de reserva, em crossfade A/B ---
+        val photoMode = state.background.value.startsWith(PHOTO)
         state.background.apply(rv, R.id.bg_a, R.id.bg_b) { id, value ->
-            val atm = runCatching { Atmosphere.valueOf(value) }.getOrDefault(atmosphere)
-            rv.setImageViewResource(id, atm.background)
+            rv.setImageViewResource(id, backgroundRes(context, value, atmosphere))
         }
         rv.setInt(android.R.id.background, "setBackgroundResource", atmosphere.background)
-        rv.setImageViewResource(R.id.deco, atmosphere.deco)
+        // Sobre a foto: véu escuro translúcido para legibilidade. No degradê: detalhe estático.
+        rv.setViewVisibility(R.id.scrim, if (photoMode) View.VISIBLE else View.GONE)
+        rv.setViewVisibility(R.id.deco, if (photoMode) View.GONE else View.VISIBLE)
+        if (!photoMode) rv.setImageViewResource(R.id.deco, atmosphere.deco)
+        val panel = if (photoMode) R.drawable.glass_dark else R.drawable.glass_soft
+        rv.setInt(R.id.metrics, "setBackgroundResource", panel)
+        if (expandedFamily) rv.setInt(R.id.forecast, "setBackgroundResource", panel)
 
         // --- Interações (todas funcionais) ---
         rv.setOnClickPendingIntent(android.R.id.background, detailIntent(context, DetailSection.TOP))
@@ -477,6 +483,27 @@ object WidgetRenderer {
         }
     }
 
+    private const val PHOTO = "photo:"
+    private const val GRADIENT = "grad:"
+
+    /**
+     * Chave estável do fundo: a mesma chave = nenhuma troca (sem piscar nem recarregar).
+     * Usa a foto do cenário se ela existir no app; senão, o degradê da atmosfera.
+     */
+    fun backgroundKey(context: Context, snap: WeatherSnapshot?, now: Instant, atm: Atmosphere): String {
+        if (snap == null) return GRADIENT + atm.name
+        // Antes do Android 12 o launcher não recorta a foto nos cantos arredondados: usa o degradê.
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) return GRADIENT + atm.name
+        val scene = Scenery.sceneFor(snap, now)
+        return if (Scenery.photoRes(context, scene.photo) != 0) PHOTO + scene.photo else GRADIENT + atm.name
+    }
+
+    private fun backgroundRes(context: Context, key: String, fallback: Atmosphere): Int = when {
+        key.startsWith(PHOTO) -> Scenery.photoRes(context, key.removePrefix(PHOTO)).takeIf { it != 0 } ?: fallback.background
+        key.startsWith(GRADIENT) -> runCatching { Atmosphere.valueOf(key.removePrefix(GRADIENT)).background }.getOrDefault(fallback.background)
+        else -> runCatching { Atmosphere.valueOf(key).background }.getOrDefault(fallback.background) // chave da versão anterior
+    }
+
     private fun iconFromKey(key: String): Int {
         val parts = key.split('|')
         val code = parts.getOrNull(0)?.toIntOrNull() ?: return R.drawable.wx_cloudy
@@ -499,7 +526,7 @@ object WidgetRenderer {
      * vai para a camada oculta e a visibilidade é invertida; o LayoutTransition do container
      * (animateLayoutChanges) faz o crossfade sem nenhum salto de layout.
      */
-    private class CrossfadeState(context: Context, private val widgetId: Int, private val commit: Boolean) {
+    private class CrossfadeState(private val context: Context, private val widgetId: Int, private val commit: Boolean) {
         private val store = WeatherStore(context)
         lateinit var temp: Layered
         lateinit var icon: Layered
@@ -515,7 +542,7 @@ object WidgetRenderer {
             } ?: "empty"
             temp = pair("temp", tempValue)
             icon = pair("icon", iconValue)
-            background = pair("bg", atm.name)
+            background = pair("bg", backgroundKey(context, snap, model.now, atm))
         }
 
         private fun pair(key: String, value: String): Layered {

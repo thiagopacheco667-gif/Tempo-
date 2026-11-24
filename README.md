@@ -11,6 +11,7 @@ Widget de previsão do tempo para Android (tela inicial), com dados reais da [Op
 | **Previsão** | 5 dias no widget; 24 horas (curva de temperatura, vento, nascer/pôr do sol) na tela detalhada |
 | **Alertas do INMET** | Avisos oficiais cujo polígono cobre o local: chip/faixa no widget e cartões com riscos e recomendações |
 | **Qualidade do ar** | IQA (escala US AQI), PM2,5 e PM10 |
+| **Fundos fotográficos** | Cenário por período do dia (madrugada, manhã, tarde, entardecer, noite, no fuso da cidade) × condição (limpo, parcial, nublado, nevoeiro, chuva fraca/moderada/intensa, tempestade, granizo, neve), com véu azul-marinho para legibilidade e troca em fade. Ver `tools/scenes/SCENES.md` |
 | **Atmosfera dinâmica** | Ensolarado, nublado, chuva, tempestade, noite e pôr do sol (pelo nascer/pôr do sol do local) |
 | **Localização** | Automática (rede, fused e GPS, em sequência) ou cidade escolhida pela busca |
 | **Atualização** | Automática (WorkManager, 30 min–3 h, só com rede), manual pelo botão, e ao trocar de cidade |
@@ -54,6 +55,8 @@ app/src/main/java/app/tempo/weather/
 | `LARGE` | 300×330 | tudo em escala maior, faixa do alerta INMET e linha de IQA (4×4) |
 
 ## Limitações da plataforma e como foram tratadas
+
+- **Fotos locais, sem download:** as fotos ficam no próprio APK (WebP 1280×720 em `drawable-nodpi`) e o launcher as carrega direto dos recursos. Não há download, cache para invalidar nem limite de bitmap do RemoteViews, e tudo funciona offline. Por isso "pré-carregar" e "evitar downloads repetidos" ficam resolvidos por construção. A troca só acontece quando a chave do cenário muda. Um alarme RTC (que não acorda o aparelho) redesenha o widget na virada de período. Abaixo do Android 12 o launcher não recorta a foto nos cantos, então nesses aparelhos o widget usa o degradê.
 
 - **Sem animações contínuas.** A atmosfera usa camadas estáticas (estrelas, chuva, névoa, luz), assim o launcher não precisa redesenhar o widget a cada quadro. O único elemento animado é o indicador de carregamento, que só aparece durante uma atualização.
 - **Transições sem salto de layout:** temperatura, ícone e fundo têm duas camadas sobrepostas (A/B). O valor novo entra na camada oculta e a visibilidade se inverte, e o `animateLayoutChanges` do container faz o crossfade. O estado de cada camada é salvo por widget, com chaves estáveis em vez de IDs de recurso.

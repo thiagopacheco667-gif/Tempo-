@@ -71,6 +71,7 @@ class WidgetRenderTest {
     private val scenarios: List<Triple<String, WeatherSnapshot, Instant>> by lazy {
         listOf(
             Triple("real_platina_alert", platina, Instant.parse("2026-11-24T06:05:00Z")),
+            Triple("photo_fog_manha", platina.copy(current = platina.current.copy(weatherCode = 45, isDay = true)), Instant.parse("2026-11-24T10:30:00Z")),
             Triple("real_night_cloudy", base, Instant.parse("2026-11-24T04:50:00Z")),
             variant(0, "12:30", true, 29.4).let { Triple("clear_day", it.first, it.second) },
             variant(1, "18:05", true, 26.2).let { Triple("sunset", it.first, it.second) },

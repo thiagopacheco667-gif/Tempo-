@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- As fotografias de cenário são resolvidas por nome em tempo de execução; impede que o R8 as remova. -->
+<resources xmlns:tools="http://schemas.android.com/tools" tools:keep="@drawable/scene_*" />

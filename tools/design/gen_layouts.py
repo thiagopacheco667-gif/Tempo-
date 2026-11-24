@@ -26,9 +26,13 @@ def shell(name, content, note):
 
     <!-- Duas camadas de atmosfera: a troca entre elas gera um crossfade suave -->
     <ImageView android:id="@+id/bg_a" android:layout_width="match_parent" android:layout_height="match_parent"
-        android:scaleType="fitXY" android:importantForAccessibility="no" android:src="@drawable/bg_night" />
+        android:scaleType="centerCrop" android:importantForAccessibility="no" android:src="@drawable/bg_night" />
     <ImageView android:id="@+id/bg_b" android:layout_width="match_parent" android:layout_height="match_parent"
-        android:scaleType="fitXY" android:importantForAccessibility="no" android:visibility="invisible" />
+        android:scaleType="centerCrop" android:importantForAccessibility="no" android:visibility="invisible" />
+    <!-- Véu escuro translúcido sobre a fotografia (legibilidade) -->
+    <ImageView android:id="@+id/scrim" android:layout_width="match_parent" android:layout_height="match_parent"
+        android:scaleType="fitXY" android:src="@drawable/scrim_photo" android:importantForAccessibility="no"
+        android:visibility="gone" />
     <!-- Detalhe atmosférico estático (estrelas, chuva, névoa, luz) -->
     <ImageView android:id="@+id/deco" android:layout_width="match_parent" android:layout_height="match_parent"
         android:scaleType="fitXY" android:importantForAccessibility="no" />

@@ -43,6 +43,11 @@ class WeatherWidgetProvider : AppWidgetProvider() {
 
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
+        if (intent.action == ACTION_SCENE) {
+            // Mudou o período do dia (madrugada/manhã/tarde/entardecer/noite): só redesenha.
+            renderAll(context)
+            return
+        }
         if (intent.action == ACTION_REFRESH) {
             val store = WeatherStore(context)
             if (!store.isRefreshing()) {
@@ -55,12 +60,27 @@ class WeatherWidgetProvider : AppWidgetProvider() {
 
     companion object {
         const val ACTION_REFRESH = "app.tempo.weather.action.REFRESH"
+        const val ACTION_SCENE = "app.tempo.weather.action.SCENE"
 
         fun refreshIntent(context: Context): PendingIntent = PendingIntent.getBroadcast(
             context, 1,
             Intent(context, WeatherWidgetProvider::class.java).setAction(ACTION_REFRESH),
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
         )
+
+        /**
+         * Agenda o redesenho na próxima troca de período. Alarme RTC (não acorda o aparelho) e
+         * inexato: com a tela desligada nada roda; ao ligar, o widget já mostra o cenário certo.
+         */
+        private fun scheduleSceneChange(context: Context, at: java.time.Instant) {
+            val am = context.getSystemService(Context.ALARM_SERVICE) as? android.app.AlarmManager ?: return
+            val pi = PendingIntent.getBroadcast(
+                context, 2,
+                Intent(context, WeatherWidgetProvider::class.java).setAction(ACTION_SCENE),
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+            )
+            runCatching { am.set(android.app.AlarmManager.RTC, at.toEpochMilli(), pi) }
+        }
 
         fun renderAll(context: Context) {
             val manager = AppWidgetManager.getInstance(context)
@@ -70,6 +90,7 @@ class WeatherWidgetProvider : AppWidgetProvider() {
 
         private fun render(context: Context, manager: AppWidgetManager, ids: IntArray) {
             val model = RenderModel.from(context)
+            model.snapshot?.let { scheduleSceneChange(context, Scenery.nextBoundary(it, model.now)) }
             ids.forEach { id ->
                 val opts = manager.getAppWidgetOptions(id)
                 // Retrato: largura mínima e altura máxima, como recomenda a documentação.

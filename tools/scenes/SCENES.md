@@ -20,37 +20,34 @@ sem textos, números, pessoas ou elementos gráficos.
 |---|---|---|
 | `scene_clear_madrugada` | céu limpo · madrugada | ✅ |
 | `scene_clear_manha` | céu limpo · manhã | ✅ |
-| `scene_clear_tarde` | céu limpo · tarde | ✅ ¹ |
-| `scene_clear_entardecer` | céu limpo · entardecer | ✅ ¹ |
+| `scene_clear_tarde` | céu limpo · tarde | ✅ |
+| `scene_clear_entardecer` | céu limpo · entardecer | ✅ |
 | `scene_clear_noite` | céu limpo · noite | ✅ |
 | `scene_partly_manha` | parcialmente nublado · manhã | ✅ |
 | `scene_partly_tarde` | parcialmente nublado · tarde | ✅ |
 | `scene_partly_entardecer` | parcialmente nublado · entardecer | ✅ |
-| `scene_partly_noite` | parcialmente nublado · madrugada e noite | ✅ ¹ |
+| `scene_partly_noite` | parcialmente nublado · madrugada e noite | ✅ |
 | `scene_cloudy_dia` | nublado · manhã e tarde | ✅ |
-| `scene_cloudy_entardecer` | nublado · entardecer | ✅ ¹ |
+| `scene_cloudy_entardecer` | nublado · entardecer | ✅ |
 | `scene_cloudy_noite` | nublado · madrugada e noite | ✅ |
 | `scene_fog_manha` | nevoeiro · manhã (floresta com neblina, luz do amanhecer) | ✅ |
-| `scene_fog_dia` | nevoeiro · tarde e entardecer | ✅ ¹ |
-| `scene_fog_noite` | nevoeiro · madrugada e noite | ✅ ¹ |
-| `scene_rain_light_dia` | chuva fraca / garoa · manhã e tarde | ✅ ¹ |
-| `scene_rain_light_noite` | chuva fraca / garoa · madrugada e noite | ✅ ¹ |
+| `scene_fog_dia` | nevoeiro · tarde e entardecer | ✅ |
+| `scene_fog_noite` | nevoeiro · madrugada e noite | ✅ |
+| `scene_rain_light_dia` | chuva fraca / garoa · manhã e tarde | ✅ |
+| `scene_rain_light_noite` | chuva fraca / garoa · madrugada e noite | ✅ |
 | `scene_rain_moderate_dia` | chuva moderada · manhã e tarde | ✅ |
-| `scene_rain_moderate_noite` | chuva moderada · madrugada e noite | ✅ ¹ |
-| `scene_rain_heavy_dia` | chuva intensa · manhã e tarde | ✅ ¹ |
-| `scene_rain_heavy_noite` | chuva intensa · madrugada e noite | ✅ ¹ |
-| `scene_rain_entardecer` | qualquer chuva · entardecer (nuvens escuras, horizonte alaranjado) | ✅ ¹ |
-| `scene_storm_dia` | tempestade com raios · manhã e tarde | ✅ ¹ |
-| `scene_storm_entardecer` | tempestade com raios · entardecer | ✅ ¹ |
-| `scene_storm_noite` | tempestade com raios · madrugada e noite (relâmpagos) | ✅ ¹ |
-| `scene_hail_dia` | granizo · manhã, tarde e entardecer | ✅ ¹ |
-| `scene_hail_noite` | granizo · madrugada e noite | ✅ ¹ |
-| `scene_snow_dia` | neve · manhã, tarde e entardecer | ✅ ¹ |
-| `scene_snow_noite` | neve · madrugada e noite | ✅ ¹ |
+| `scene_rain_moderate_noite` | chuva moderada · madrugada e noite | ✅ |
+| `scene_rain_heavy_dia` | chuva intensa · manhã e tarde | ✅ |
+| `scene_rain_heavy_noite` | chuva intensa · madrugada e noite | ✅ |
+| `scene_rain_entardecer` | qualquer chuva · entardecer (nuvens escuras, horizonte alaranjado) | ✅ |
+| `scene_storm_dia` | tempestade com raios · manhã e tarde | ✅ |
+| `scene_storm_entardecer` | tempestade com raios · entardecer | ✅ |
+| `scene_storm_noite` | tempestade com raios · madrugada e noite (relâmpagos) | ✅ |
+| `scene_hail_dia` | granizo · manhã, tarde e entardecer | ✅ |
+| `scene_hail_noite` | granizo · madrugada e noite | ✅ |
+| `scene_snow_dia` | neve · manhã, tarde e entardecer | ✅ |
+| `scene_snow_noite` | neve · madrugada e noite | ✅ |
 
-As fotos marcadas com ✅ foram geradas com IA no Canva da conta do usuário e otimizadas para 1280×720 WebP.
-A de `clear_tarde` também foi gerada, mas os créditos acabaram antes de exportá-la em alta resolução.
-Ela está na biblioteca do Canva (id `MAHbzj8sf4A`) e pode ser exportada depois.
-
-¹ Fotos enviadas pelo usuário, recortadas de uma grade (cerca de 334×150 px por quadro, ampliadas para 960×540).
-Para máxima nitidez, substitua pelos originais em alta resolução com `optimize.py`, usando o mesmo nome.
+Todas as fotografias são reais (Flickr via Openverse), com licenças CC0, domínio público, CC BY 2.0 ou
+CC BY-SA 2.0. Autor, título e link de cada uma estão em `app/src/main/res/raw/photo_credits.json` e aparecem
+em "Créditos das fotos" na tela de configurações. Para buscar candidatas: `tools/scenes/openverse_search.py`.

@@ -1,1 +1,205 @@
-[]
+[
+ {
+  "scene": "clear_madrugada",
+  "title": "I love Blue",
+  "artist": "Falcon_33",
+  "license": "CC BY-SA 2.0",
+  "source": "https://www.flickr.com/photos/93592003@N04/16287871692"
+ },
+ {
+  "scene": "clear_manha",
+  "title": "sunrise landscape",
+  "artist": "aminekaytoni",
+  "license": "PDM",
+  "source": "https://www.flickr.com/photos/144184357@N06/33244527475"
+ },
+ {
+  "scene": "clear_tarde",
+  "title": "Kuranda rainforest",
+  "artist": "skyseeker",
+  "license": "CC BY 2.0",
+  "source": "https://www.flickr.com/photos/40422902@N00/5853080900"
+ },
+ {
+  "scene": "clear_entardecer",
+  "title": "Colorful idyllic sunset landscape at lake Lipno, Czech mountains Sumava, Bohemia",
+  "artist": "prague.czech.photo",
+  "license": "CC BY 2.0",
+  "source": "https://www.flickr.com/photos/99424477@N04/35718909923"
+ },
+ {
+  "scene": "clear_noite",
+  "title": "Starry sky",
+  "artist": "skyseeker",
+  "license": "CC BY 2.0",
+  "source": "https://www.flickr.com/photos/40422902@N00/23334535734"
+ },
+ {
+  "scene": "partly_manha",
+  "title": "Morning Clouds",
+  "artist": "BLM Oregon & Washington",
+  "license": "CC BY 2.0",
+  "source": "https://www.flickr.com/photos/50169152@N06/11407341746"
+ },
+ {
+  "scene": "partly_tarde",
+  "title": "Aerial view of cumulus clouds 2",
+  "artist": "D Coetzee",
+  "license": "CC0",
+  "source": "https://www.flickr.com/photos/29507259@N02/3527948562"
+ },
+ {
+  "scene": "partly_entardecer",
+  "title": "Sunset cloud theater over the sea panorama",
+  "artist": "Musicaloris",
+  "license": "CC BY 2.0",
+  "source": "https://www.flickr.com/photos/125008237@N07/52555387957"
+ },
+ {
+  "scene": "partly_noite",
+  "title": "Moon Cloud 1",
+  "artist": "megforce1",
+  "license": "CC0",
+  "source": "https://www.flickr.com/photos/35608308@N05/21586231738"
+ },
+ {
+  "scene": "cloudy_dia",
+  "title": "Green garden, trees, overcast sky",
+  "artist": "Matthew Paul Argall",
+  "license": "CC BY 2.0",
+  "source": "https://www.flickr.com/photos/79157069@N03/30118050262"
+ },
+ {
+  "scene": "cloudy_entardecer",
+  "title": "A Cloudy sunset - Nikon DSCN4248-001",
+  "artist": "iezalel7williams",
+  "license": "CC0",
+  "source": "https://www.flickr.com/photos/181765699@N08/48987323488"
+ },
+ {
+  "scene": "cloudy_noite",
+  "title": "Cloudy Night",
+  "artist": "John Loo",
+  "license": "CC BY 2.0",
+  "source": "https://www.flickr.com/photos/8510225@N07/23795115555"
+ },
+ {
+  "scene": "fog_manha",
+  "title": "Morning Fog Emerging From The Trees",
+  "artist": "A Guy Taking Pictures",
+  "license": "CC BY 2.0",
+  "source": "https://www.flickr.com/photos/80901381@N04/8074177761"
+ },
+ {
+  "scene": "fog_dia",
+  "title": "Morning Ground Fog",
+  "artist": "Me in ME",
+  "license": "CC BY 2.0",
+  "source": "https://www.flickr.com/photos/12357841@N02/48580507037"
+ },
+ {
+  "scene": "fog_noite",
+  "title": "Foggy in leeds",
+  "artist": "robef",
+  "license": "CC BY 2.0",
+  "source": "https://www.flickr.com/photos/45953381@N05/15899237585"
+ },
+ {
+  "scene": "rain_light_dia",
+  "title": "drizzling in trans-himalaya - 360° panorama, losar spiti",
+  "artist": "nevil zaveri (thank you for 20+M views:)",
+  "license": "CC BY 2.0",
+  "source": "https://www.flickr.com/photos/43109416@N00/3116143340"
+ },
+ {
+  "scene": "rain_light_noite",
+  "title": "rainy night - free 2 use - bg tex",
+  "artist": "H.Adam",
+  "license": "CC BY 2.0",
+  "source": "https://www.flickr.com/photos/30426423@N07/4319661857"
+ },
+ {
+  "scene": "rain_moderate_dia",
+  "title": "Rain",
+  "artist": "_paVan_",
+  "license": "CC BY 2.0",
+  "source": "https://www.flickr.com/photos/39483844@N03/6099724334"
+ },
+ {
+  "scene": "rain_moderate_noite",
+  "title": "Raining night, pavement...",
+  "artist": "OiMax",
+  "license": "CC BY 2.0",
+  "source": "https://www.flickr.com/photos/72396314@N00/360496651"
+ },
+ {
+  "scene": "rain_heavy_dia",
+  "title": "heavy rain all over Western Canada",
+  "artist": "naturalflow",
+  "license": "CC BY-SA 2.0",
+  "source": "https://www.flickr.com/photos/70693287@N00/9094158034"
+ },
+ {
+  "scene": "rain_heavy_noite",
+  "title": "Bristol Bridge By Night",
+  "artist": "charlieishere@btinternet.com",
+  "license": "CC BY 2.0",
+  "source": "https://www.flickr.com/photos/100915417@N07/12002520895"
+ },
+ {
+  "scene": "rain_entardecer",
+  "title": "#storm #rain #sunset #rainysunset #rainyday",
+  "artist": "jesuscristobalmonterofuentes",
+  "license": "PDM",
+  "source": "https://www.flickr.com/photos/129409309@N02/34345473302"
+ },
+ {
+  "scene": "storm_dia",
+  "title": "Seattle Thunderstorm",
+  "artist": "aaronbrethorst",
+  "license": "CC BY 2.0",
+  "source": "https://www.flickr.com/photos/62066451@N00/20335972889"
+ },
+ {
+  "scene": "storm_entardecer",
+  "title": "Thunderstorm Sunset",
+  "artist": "robin.kendon",
+  "license": "CC BY-SA 2.0",
+  "source": "https://www.flickr.com/photos/105173590@N03/52298345472"
+ },
+ {
+  "scene": "storm_noite",
+  "title": "Lightning",
+  "artist": "Ricardo_F",
+  "license": "CC BY-SA 2.0",
+  "source": "https://www.flickr.com/photos/81919516@N06/9679937170"
+ },
+ {
+  "scene": "hail_dia",
+  "title": "hail, magnified",
+  "artist": "jlodder",
+  "license": "CC BY 2.0",
+  "source": "https://www.flickr.com/photos/45040421@N06/14173521434"
+ },
+ {
+  "scene": "hail_noite",
+  "title": "Hailstones (4 July 2010) (Limon, eastern Colorado, USA) 3",
+  "artist": "James St. John",
+  "license": "CC BY 2.0",
+  "source": "https://www.flickr.com/photos/47445767@N05/15148092311"
+ },
+ {
+  "scene": "snow_dia",
+  "title": "snow landscape",
+  "artist": "EmsiProduction",
+  "license": "CC BY 2.0",
+  "source": "https://www.flickr.com/photos/67577285@N02/6778284449"
+ },
+ {
+  "scene": "snow_noite",
+  "title": "Snow Night in Moncton",
+  "artist": "James P. Mann",
+  "license": "CC BY 2.0",
+  "source": "https://www.flickr.com/photos/22979102@N04/15706655669"
+ }
+]

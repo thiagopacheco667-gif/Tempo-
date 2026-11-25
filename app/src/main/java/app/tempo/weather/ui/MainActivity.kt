@@ -338,8 +338,9 @@ private fun SettingsScreen(isConfiguring: Boolean, onDone: () -> Unit) {
 
             Text(
                 "Dados: Open-Meteo.com (CC BY 4.0) e avisos oficiais do INMET. Previsões são estimativas do modelo e podem variar.",
-                color = Ink3, fontSize = 11.5.sp, modifier = Modifier.padding(top = 4.dp, bottom = 8.dp),
+                color = Ink3, fontSize = 11.5.sp, modifier = Modifier.padding(top = 4.dp),
             )
+            PhotoCredits()
         }
     }
 
@@ -498,5 +499,30 @@ private fun Chip(label: String, selected: Boolean, modifier: Modifier = Modifier
         contentAlignment = Alignment.Center,
     ) {
         Text(label, color = if (selected) Color.White else Ink2, fontSize = 13.sp)
+    }
+}
+
+/** Créditos das fotografias de cenário (exigidos pelas licenças Creative Commons). */
+@Composable
+private fun PhotoCredits() {
+    val context = LocalContext.current
+    val credits = remember {
+        runCatching {
+            val raw = context.resources.openRawResource(app.tempo.weather.R.raw.photo_credits).bufferedReader().use { it.readText() }
+            val arr = org.json.JSONArray(raw)
+            (0 until arr.length()).map { arr.getJSONObject(it) }.map {
+                "${it.getString("scene")}: ${it.getString("title")} — ${it.getString("artist")} (${it.getString("license")})"
+            }
+        }.getOrDefault(emptyList())
+    }
+    if (credits.isEmpty()) return
+    var open by remember { mutableStateOf(false) }
+    Column(Modifier.padding(bottom = 8.dp)) {
+        Text(
+            if (open) "Ocultar créditos das fotos" else "Créditos das fotos (Wikimedia Commons)",
+            color = Accent, fontSize = 12.sp,
+            modifier = Modifier.clickable { open = !open }.padding(vertical = 6.dp),
+        )
+        if (open) credits.forEach { Text(it, color = Ink3, fontSize = 10.5.sp, modifier = Modifier.padding(top = 3.dp)) }
     }
 }

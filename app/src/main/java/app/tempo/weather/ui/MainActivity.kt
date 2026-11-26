@@ -337,7 +337,7 @@ private fun SettingsScreen(isConfiguring: Boolean, onDone: () -> Unit) {
             }
 
             Text(
-                "Dados: Open-Meteo.com (CC BY 4.0) e avisos oficiais do INMET. Previsões são estimativas do modelo e podem variar.",
+                "Dados: Open-Meteo.com (CC BY 4.0, modelo ECMWF), radar RainViewer e avisos oficiais do INMET. Previsões são estimativas e podem variar.",
                 color = Ink3, fontSize = 11.5.sp, modifier = Modifier.padding(top = 4.dp),
             )
             PhotoCredits()

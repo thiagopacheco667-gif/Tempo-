@@ -236,6 +236,22 @@ object OpenMeteoClient {
 
     // --- HTTP ------------------------------------------------------------------------------
 
+    /** Download binário (ex.: imagem de radar). */
+    internal fun getBytes(url: String): ByteArray {
+        val conn = URL(url).openConnection() as HttpURLConnection
+        try {
+            conn.connectTimeout = 10_000
+            conn.readTimeout = 20_000
+            conn.setRequestProperty("User-Agent", "TempoWidget/1.0 (Android)")
+            if (conn.responseCode !in 200..299) throw WeatherApiException("HTTP ${conn.responseCode}")
+            return conn.inputStream.use { it.readBytes() }
+        } catch (e: IOException) {
+            throw WeatherApiException("Sem conexão com o radar", e)
+        } finally {
+            conn.disconnect()
+        }
+    }
+
     internal fun get(url: String, userAgent: String = "TempoWidget/1.0 (Android)"): String {
         val conn = try {
             URL(url).openConnection() as HttpURLConnection

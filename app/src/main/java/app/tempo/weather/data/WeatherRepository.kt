@@ -25,6 +25,27 @@ fun WeatherAlert.isActiveNow(now: java.time.LocalDateTime = java.time.LocalDateT
         !java.time.LocalDateTime.parse(start, f).isAfter(now) && !java.time.LocalDateTime.parse(end, f).isBefore(now)
     }.getOrDefault(false)
 
+/**
+ * Se o radar observa chuva agora e o modelo não indica precipitação, a condição atual passa a
+ * refletir a observação (chuva fraca/moderada/forte). Tempestade, neve e granizo do modelo são
+ * mantidos. Sem eco no radar, prevalece o modelo (o radar tem lacunas de cobertura).
+ */
+fun applyRadar(snap: WeatherSnapshot, place: Place): WeatherSnapshot {
+    val rain = runCatching { RadarClient.rainAt(place.latitude, place.longitude) }.getOrNull() ?: return snap
+    return snap.copy(current = mergeRadar(snap.current, rain))
+}
+
+fun mergeRadar(current: CurrentWeather, rain: RadarRain): CurrentWeather {
+    val c = WeatherCodes.condition(current.weatherCode)
+    val keep = c == Condition.STORM || c == Condition.SNOW
+    if (keep) return current
+    val modelIntensity = when (current.weatherCode) {
+        65, 67, 82 -> 2; 63, 66, 81 -> 1; 61, 80, 51, 53, 55, 56, 57 -> 0; else -> -1
+    }
+    // Usa a intensidade maior entre radar e modelo.
+    return if (rain.ordinal > modelIntensity) current.copy(weatherCode = rain.weatherCode) else current
+}
+
 class WeatherRepository(private val context: Context) {
 
     private val store = WeatherStore(context)
@@ -71,7 +92,7 @@ class WeatherRepository(private val context: Context) {
         }
         try {
             val previous = store.snapshot?.takeIf { it.place.sameSpot(place) }
-            val base = OpenMeteoClient.fetchForecast(place)
+            val base = applyRadar(OpenMeteoClient.fetchForecast(place), place)
             val air = runCatching { OpenMeteoClient.fetchAirQuality(place) }.getOrNull() ?: previous?.airQuality
 
             // O feed nacional do INMET é grande (~400 KB): consulta no máximo a cada 2 h,

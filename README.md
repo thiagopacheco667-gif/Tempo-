@@ -6,6 +6,7 @@ Widget de previsão do tempo para Android (tela inicial), com dados reais da [Op
 
 | | |
 |---|---|
+| **Modelo** | ECMWF IFS 0,25° (o mais preciso entre os gratuitos), com o padrão da Open-Meteo como complemento (UV) e reserva |
 | **Clima atual** | Temperatura em destaque, cidade/UF, condição, máx/mín, sensação térmica e ícone ilustrado |
 | **Indicadores** | Chuva, umidade, vento (com direção) e índice UV, com ícone, valor e rótulo discreto |
 | **Previsão** | 5 dias no widget; 24 horas (curva de temperatura, vento, nascer/pôr do sol) na tela detalhada |

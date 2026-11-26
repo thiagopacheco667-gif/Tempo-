@@ -50,15 +50,62 @@ object OpenMeteoClient {
         "precipitation_probability_max", "uv_index_max", "sunrise", "sunset",
     ).joinToString(",")
 
-    fun buildForecastUrl(lat: Double, lon: Double): String =
+    /**
+     * Modelo principal: ECMWF IFS 0,25° — o modelo global mais preciso, aberto e gratuito.
+     * O padrão da Open-Meteo no Brasil (best_match, baseado no GFS) costuma perder chuva fraca:
+     * ex.: garoa real às 05:30 aparecia como "nublado". O best_match continua como complemento
+     * (índice UV, que o ECMWF não fornece) e como reserva se o ECMWF falhar.
+     */
+    const val PRIMARY_MODEL = "ecmwf_ifs025"
+
+    fun buildForecastUrl(lat: Double, lon: Double, model: String? = PRIMARY_MODEL): String =
         "$FORECAST?latitude=${fmt(lat)}&longitude=${fmt(lon)}" +
             "&current=$CURRENT_VARS&daily=$DAILY_VARS&hourly=$HOURLY_VARS" +
             "&temperature_unit=celsius&wind_speed_unit=kmh" +
-            "&timezone=auto&forecast_days=6&forecast_hours=24"
+            "&timezone=auto&forecast_days=6&forecast_hours=24" +
+            (model?.let { "&models=$it" } ?: "")
 
     fun fetchForecast(place: Place, now: Long = System.currentTimeMillis()): WeatherSnapshot {
-        val body = get(buildForecastUrl(place.latitude, place.longitude))
-        return parseForecast(body, place, now)
+        val primary = runCatching {
+            parseForecast(get(buildForecastUrl(place.latitude, place.longitude)), place, now)
+        }
+        val fallback = runCatching {
+            parseForecast(get(buildForecastUrl(place.latitude, place.longitude, model = null)), place, now)
+        }
+        val p = primary.getOrNull() ?: return fallback.getOrThrow()
+        return fallback.getOrNull()?.let { merge(p, it) } ?: p
+    }
+
+    /** Mantém tudo do modelo principal e só preenche o que ele não fornece. */
+    fun merge(primary: WeatherSnapshot, secondary: WeatherSnapshot): WeatherSnapshot {
+        val secDays = secondary.daily.associateBy { it.date }
+        val secHours = secondary.hourly.associateBy { it.time }
+        val c = primary.current
+        val sc = secondary.current
+        return primary.copy(
+            current = c.copy(
+                uvIndex = c.uvIndex ?: sc.uvIndex,
+                precipitationProbability = c.precipitationProbability ?: sc.precipitationProbability,
+                windDirection = c.windDirection ?: sc.windDirection,
+                humidity = if (c.humidity >= 0) c.humidity else sc.humidity,
+            ),
+            daily = primary.daily.map { d ->
+                val s = secDays[d.date] ?: return@map d
+                d.copy(
+                    uvIndexMax = d.uvIndexMax ?: s.uvIndexMax,
+                    precipitationProbability = d.precipitationProbability ?: s.precipitationProbability,
+                    sunrise = d.sunrise ?: s.sunrise,
+                    sunset = d.sunset ?: s.sunset,
+                )
+            },
+            hourly = primary.hourly.ifEmpty { secondary.hourly }.map { h ->
+                val s = secHours[h.time] ?: return@map h
+                h.copy(
+                    precipitationProbability = h.precipitationProbability ?: s.precipitationProbability,
+                    windSpeedKmh = h.windSpeedKmh ?: s.windSpeedKmh,
+                )
+            },
+        )
     }
 
     /** Qualidade do ar atual (índice US AQI). Opcional: falhas não impedem a previsão. */
